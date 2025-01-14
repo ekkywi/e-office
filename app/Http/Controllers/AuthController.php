@@ -45,7 +45,7 @@ class AuthController extends Controller
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput()
-                ->with('error', 'Registration failed. Please check your input.');
+                ->with('error', 'Registerasi gagal. Silhkan periksa kembali data yang Anda masukkan.');
         }
 
         $user = User::create([
@@ -60,8 +60,39 @@ class AuthController extends Controller
             'status_aktivasi' => false,
         ]);
 
-        // Redirect to a specific page after registration
-        return redirect()->route('register')->with('success', 'Registration successful. Please login.');
+        return redirect()->route('register')->with('success', 'Registerasi berhasil. Silahkan aktivasi akun Anda.');
+    }
+
+    public function activateUser(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|string|exists:user,username',
+            'token' => 'required|string|exists:user,token',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', 'Aktivasi gagal. Silahkan periksa kembali data yang Anda masukkan.');
+        }
+
+        // Cari user berdasarkan username dan token
+        $user = User::where('username', $request->username)
+            ->where('token', $request->token)
+            ->first();
+
+        // Jika user tidak ditemukan atau sudah diaktivasi
+        if (!$user || $user->status_aktivasi) {
+            return redirect()->back()->with('error', 'Token tidak valid atau akun sudah diaktivasi.');
+        }
+
+        // Aktivasi user
+        $user->status_aktivasi = true;
+        $user->token = Str::random(60);
+        $user->save();
+
+        return redirect()->route('activation')->with('success', 'Akun Anda berhasil diaktivasi. Silahkan login.');
     }
 
     public function showResetForm()

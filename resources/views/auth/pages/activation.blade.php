@@ -29,7 +29,8 @@
                                 <h3>Aktivasi Akun</h3>
                             </div>
                             <div class="card-body">
-                                <form class="needs-validation" method="POST" novalidate>
+                                <form action="{{ route("activate.user") }}" class="needs-validation" method="POST" novalidate>
+                                    @csrf
                                     <div class="form-group">
                                         <label for="username">Username</label>
                                         <input autofocus class="form-control" id="username" name="username" placeholder="Masukan username Anda" required tabindex="1" type="text">
@@ -75,4 +76,24 @@
     <!-- Template JS File -->
     <script src="{{ asset("js/scripts.js") }}"></script>
     <script src="{{ asset("js/custom.js") }}"></script>
+    <!-- JS Libraies -->
+    <script src="{{ asset("modules/sweetalert/sweetalert.min.js") }}"></script>
+    @if (session("success"))
+        <script>
+            swal({
+                icon: 'success',
+                title: 'Aktivasi Berhasil',
+                text: '{{ session("success") }}',
+            });
+        </script>
+    @endif
+    @if (session("error"))
+        <script>
+            swal({
+                icon: 'error',
+                title: 'Aktivasi Gagal',
+                text: '{{ session("error") }}',
+            });
+        </script>
+    @endif
 @endsection

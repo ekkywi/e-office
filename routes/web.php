@@ -19,3 +19,4 @@ Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('regi
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
 Route::get('/reset', [AuthController::class, 'showResetForm'])->name('reset');
 Route::get('/activation', [AuthController::class, 'showActivationForm'])->name('activation');
+Route::post('/activate', [AuthController::class, 'activateUser'])->name('activate.user');

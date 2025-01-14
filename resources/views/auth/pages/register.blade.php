@@ -29,16 +29,6 @@
                             <div class="card-header">
                                 <h3>Registerasi Akun</h3>
                             </div>
-                            @if (session("success"))
-                                <div class="alert alert-success">
-                                    {{ session("success") }}
-                                </div>
-                            @endif
-                            @if (session("error"))
-                                <div class="alert alert-danger">
-                                    {{ session("error") }}
-                                </div>
-                            @endif
                             <div class="card-body">
                                 <form action="{{ route("register.submit") }}" class="needs-validation" method="POST" novalidate>
                                     @csrf
@@ -164,9 +154,28 @@
     <!-- JS Libraies -->
     <script src="{{ asset("modules/jquery-pwstrength/jquery.pwstrength.min.js") }}"></script>
     <script src="{{ asset("modules/jquery-selectric/jquery.selectric.min.js") }}"></script>
+    <script src="{{ asset("modules/sweetalert/sweetalert.min.js") }}"></script>
     <!-- Page Specific JS File -->
     <script src="{{ asset("js/pages/auth-register.js") }}"></script>
     <!-- Template JS File -->
     <script src="{{ asset("js/scripts.js") }}"></script>
     <script src="{{ asset("js/custom.js") }}"></script>
+    @if (session("success"))
+        <script>
+            swal({
+                icon: 'success',
+                title: 'Registerasi Berhasil',
+                text: '{{ session("success") }}',
+            });
+        </script>
+    @endif
+    @if (session("error"))
+        <script>
+            swal({
+                icon: 'error',
+                title: '',
+                text: '{{ session("error") }}',
+            });
+        </script>
+    @endif
 @endsection
