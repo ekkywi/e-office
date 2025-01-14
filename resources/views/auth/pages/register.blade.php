@@ -21,7 +21,7 @@
                 <div class="row">
                     <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
                         <div class="login-brand">
-                            <a href="login">
+                            <a href="{{ route("auth.login") }}">
                                 <img alt="logo" class="shadow-light rounded-circle" src="{{ asset("images/logo.svg") }}" width="100">
                             </a>
                         </div>
@@ -30,7 +30,7 @@
                                 <h3>Registerasi Akun</h3>
                             </div>
                             <div class="card-body">
-                                <form action="{{ route("register.submit") }}" class="needs-validation" method="POST" novalidate>
+                                <form action="{{ route("auth.register.submit") }}" class="needs-validation" method="POST" novalidate>
                                     @csrf
                                     <div class="form-divider">
                                         Informasi Akun
@@ -173,7 +173,7 @@
         <script>
             swal({
                 icon: 'error',
-                title: '',
+                title: 'Registerasi Gagal',
                 text: '{{ session("error") }}',
             });
         </script>

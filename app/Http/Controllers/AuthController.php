@@ -9,15 +9,52 @@ use App\Models\Jabatan;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
+    // Fungsi untuk menampilkan form login
     public function showLoginForm()
     {
         return view('auth.pages.login');
     }
+
+    // Fungsi untuk menangani login
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', 'Login gagal. Silahkan periksa kembali data yang Anda masukkan.');
+        }
+
+        // Cari user berdasarkan username
+        $user = User::where('username', $request->username)->first();
+
+        // Jika user tidak ditemukan atau password tidak cocok
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return redirect()->back()->with('error', 'Username atau password salah.');
+        }
+
+        // Jika user belum diaktivasi
+        if (!$user->status_aktivasi) {
+            return redirect()->back()->with('error', 'Akun Anda belum diaktivasi. Silahkan aktivasi akun Anda terlebih dahulu.');
+        }
+
+        // Login user
+        Auth::login($user);
+
+        return redirect()->route('dashboard')->with('success', 'Login berhasil.');
+    }
+
 
     public function showRegisterForm()
     {
@@ -60,7 +97,44 @@ class AuthController extends Controller
             'status_aktivasi' => false,
         ]);
 
-        return redirect()->route('register')->with('success', 'Registerasi berhasil. Silahkan aktivasi akun Anda.');
+        return redirect()->route('auth.register')->with('success', 'Registerasi berhasil. Silahkan aktivasi akun Anda.');
+    }
+
+    public function showResetForm()
+    {
+        return view('auth.pages.reset');
+    }
+
+    public function reset(Request $request)
+    {
+        Log::info('Reset password request received', $request->all());
+
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|string|exists:user,username',
+            'token' => 'required|string|exists:user,token',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput()->with('error', 'Validasi gagal. Silahkan periksa kembali data yang Anda masukkan.');
+        }
+
+        $user = User::where('username', $request->username)->where('token', $request->token)->first();
+
+        if (!$user) {
+            return back()->with('error', 'Username atau token tidak valid');
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->token = Str::random(60); // Update token after reset
+        $user->save();
+
+        return redirect()->route('auth.reset')->with('success', 'Password berhasil direset');
+    }
+
+    public function showActivationForm()
+    {
+        return view('auth.pages.activation');
     }
 
     public function activateUser(Request $request)
@@ -92,16 +166,6 @@ class AuthController extends Controller
         $user->token = Str::random(60);
         $user->save();
 
-        return redirect()->route('activation')->with('success', 'Akun Anda berhasil diaktivasi. Silahkan login.');
-    }
-
-    public function showResetForm()
-    {
-        return view('auth.pages.reset');
-    }
-
-    public function showActivationForm()
-    {
-        return view('auth.pages.activation');
+        return redirect()->route('auth.activation')->with('success', 'Akun Anda berhasil diaktivasi. Silahkan login.');
     }
 }

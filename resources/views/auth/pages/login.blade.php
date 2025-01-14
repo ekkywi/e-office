@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
                         <div class="login-brand">
-                            <a href="login">
+                            <a href="{{ route("auth.login") }}">
                                 <img alt="logo" class="shadow-light rounded-circle" src="{{ asset("images/logo.svg") }}" width="100">
                             </a>
                         </div>
@@ -29,7 +29,8 @@
                                 <h3>Login</h3>
                             </div>
                             <div class="card-body">
-                                <form action="#" class="needs-validation" method="POST" novalidate="">
+                                <form action="{{ route("auth.login.submit") }}" class="needs-validation" method="POST" novalidate="">
+                                    @csrf
                                     <div class="form-group">
                                         <label for="username">Username</label>
                                         <input autofocus class="form-control" id="username" name="username" placeholder="Masukan username Anda" required tabindex="1" type="text">
@@ -92,4 +93,23 @@
     <!-- Template JS File -->
     <script src="{{ asset("js/scripts.js") }}"></script>
     <script src="{{ asset("js/custom.js") }}"></script>
+    <script src="{{ asset("modules/sweetalert/sweetalert.min.js") }}"></script>
+    @if (session("success"))
+        <script>
+            swal({
+                icon: 'success',
+                title: 'Login Berhasil',
+                text: '{{ session("success") }}',
+            });
+        </script>
+    @endif
+    @if (session("error"))
+        <script>
+            swal({
+                icon: 'error',
+                title: 'Login Gagal',
+                text: '{{ session("error") }}',
+            });
+        </script>
+    @endif
 @endsection
