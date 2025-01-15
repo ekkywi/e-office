@@ -44,6 +44,4 @@ Route::middleware('auth')->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-Route::prefix('maintenance')->name('maintenance.')->middleware('auth')->group(function () {
-    
-});
+Route::prefix('maintenance')->name('maintenance.')->middleware('auth')->group(function () {});

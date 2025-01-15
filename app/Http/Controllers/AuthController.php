@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Mockery\Generator\StringManipulation\Pass\Pass;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -33,19 +34,29 @@ class AuthController extends Controller
 
         $user = User::where('username', $request->username)->first();
 
-        // cek username ada atau tidak
+        $throttleKey = 'login|' . ($user ? $user->username : $request->username);
+
+        if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
+            $seconds = RateLimiter::availableIn($throttleKey);
+            return response()->json(['error' => 'Terlalu banyak percobaan login. Silakan coba lagi dalam ' . $seconds . ' detik.'], 429);
+        }
+
         if (!$user) {
+            RateLimiter::hit($throttleKey, 60);
             return response()->json(['error' => 'Username tidak ditemukan.'], 403);
         }
 
         if (!$user || !$user->status_aktivasi) {
+            RateLimiter::hit($throttleKey, 60);
             return response()->json(['error' => 'Akun Anda belum diaktivasi. Silahkan aktivasi akun Anda terlebih dahulu.'], 403);
         }
 
         if (!Hash::check($request->password, $user->password)) {
+            RateLimiter::hit($throttleKey, 60);
             return response()->json(['error' => 'Username atau password salah.'], 403);
         }
 
+        RateLimiter::clear($throttleKey);
         Auth::login($user);
 
         return response()->json(['success' => 'Login berhasil.'], 200);
