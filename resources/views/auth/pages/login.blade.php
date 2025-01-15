@@ -29,7 +29,7 @@
                                 <h3>Login</h3>
                             </div>
                             <div class="card-body">
-                                <form action="{{ route("auth.login.submit") }}" class="needs-validation" method="POST" novalidate="">
+                                <form action="{{ route("auth.login.submit") }}" class="needs-validation" id="loginForm" method="POST" novalidate="">
                                     @csrf
                                     <div class="form-group">
                                         <label for="username">Username</label>
@@ -94,22 +94,37 @@
     <script src="{{ asset("js/scripts.js") }}"></script>
     <script src="{{ asset("js/custom.js") }}"></script>
     <script src="{{ asset("modules/sweetalert/sweetalert.min.js") }}"></script>
-    @if (session("success"))
-        <script>
-            swal({
-                icon: 'success',
-                title: 'Login Berhasil',
-                text: '{{ session("success") }}',
+
+    <!-- Page Specific JS File -->
+    <script>
+        $(document).ready(function() {
+            $('#loginForm').on('submit', function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: '{{ route("auth.login") }}',
+                    method: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        swal({
+                            icon: 'success',
+                            title: 'Login Berhasil',
+                            text: response.success,
+                            timer: 2000,
+                            buttons: false,
+                        }).then(function() {
+                            window.location.href = "{{ route("dashboard") }}";
+                        });
+                    },
+                    error: function(xhr) {
+                        swal({
+                            icon: 'error',
+                            title: 'Login Gagal',
+                            text: xhr.responseJSON.error,
+                        });
+                    }
+                });
             });
-        </script>
-    @endif
-    @if (session("error"))
-        <script>
-            swal({
-                icon: 'error',
-                title: 'Login Gagal',
-                text: '{{ session("error") }}',
-            });
-        </script>
-    @endif
+        });
+    </script>
 @endsection

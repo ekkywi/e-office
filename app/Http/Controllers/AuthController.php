@@ -26,40 +26,29 @@ class AuthController extends Controller
     // Fungsi untuk menangani login
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput()
-                ->with('error', 'Login gagal. Silahkan periksa kembali data yang Anda masukkan.');
+        $user = User::where('username', $request->username)->first();
+
+        // cek username ada atau tidak
+        if (!$user) {
+            return response()->json(['error' => 'Username tidak ditemukan.'], 403);
         }
 
-        try {
-            DB::beginTransaction();
-
-            $user = User::where('username', $request->username)->first();
-
-            if (!$user->status_aktivasi) {
-                return redirect()->back()->with('error', 'Akun Anda belum diaktivasi. Silahkan aktivasi akun Anda terlebih dahulu.');
-            }
-
-            if (!$user || !Hash::check($request->password, $user->password)) {
-                return redirect()->back()->with('error', 'Username atau password salah.');
-            }
-
-            Auth::login($user);
-
-            DB::commit();
-
-            return redirect()->route('dashboard');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat login. Silahkan coba lagi.');
+        if (!$user || !$user->status_aktivasi) {
+            return response()->json(['error' => 'Akun Anda belum diaktivasi. Silahkan aktivasi akun Anda terlebih dahulu.'], 403);
         }
+
+        if (!Hash::check($request->password, $user->password)) {
+            return response()->json(['error' => 'Username atau password salah.'], 403);
+        }
+
+        Auth::login($user);
+
+        return response()->json(['success' => 'Login berhasil.'], 200);
     }
 
 
