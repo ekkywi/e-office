@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('username', 255)->unique();
             $table->string('password');
+            $table->string('nama', 255);
             $table->string('no_pegawai', 255)->unique();
             $table->string('email', 255)->nullable()->unique();
             $table->uuid('divisi_id');

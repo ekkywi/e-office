@@ -62,6 +62,16 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-divider">
+                                        Informasi Pribadi
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nama">Nama Lengkap</label>
+                                        <input class="form-control" id="nama" name="nama" placeholder="Masukan nama lengkap Anda" required tabindex="4" type="text">
+                                        <div class="invalid-feedback">
+                                            Anda belum memasukan nama lengkap
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <label for="no_pegawai">Nomor Pegawai</label>
                                         <input class="form-control" id="no_pegawai" name="no_pegawai" placeholder="Masukan nomor pegawai Anda" required tabindex="5" type="text">

@@ -7,8 +7,8 @@
         <div class="section-header">
             <h1>Divisi</h1>
             <div class="section-header-breadcrumb">
-                <div class="breadcrumb-item"><a href="{{ url("dashboard") }}">E-Office</a></div>
-                <div class="breadcrumb-item"><a href="{{ url("maintenance") }}">Maintenance</a></div>
+                <div class="breadcrumb-item"><a href="#">E-Office</a></div>
+                <div class="breadcrumb-item"><a href="#">Maintenance</a></div>
                 <div class="breadcrumb-item active">Divisi</div>
             </div>
         </div>
@@ -42,7 +42,7 @@
                                         <th>Nama Divisi</th>
                                         <th>Kelola</th>
                                     </tr>
-                                    @foreach ($divisis as $index => $divisi)
+                                    {{-- @foreach ($divisis as $index => $divisi)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
                                             <td>{{ $divisi->name }}</td>
@@ -51,7 +51,7 @@
                                                 <button class="btn btn-danger btn-delete-divisi" data-id="{{ $divisi->id }}">Hapus</button>
                                             </td>
                                         </tr>
-                                    @endforeach
+                                    @endforeach --}}
                                 </table>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route("divisi.store") }}" method="POST">
+                <form action="#" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -99,7 +99,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route("divisi.update") }}" method="POST">
+                <form action="#" method="POST">
                     @csrf
                     @method("PUT")
                     <div class="modal-body">

@@ -16,7 +16,7 @@ use Mockery\Generator\StringManipulation\Pass\Pass;
 
 class AuthController extends Controller
 {
-    // Fungsi untuk menampilkan form login
+    // Method untuk menampilkan halaman login
     public function showLoginForm()
     {
         return view('auth.pages.login');
@@ -63,7 +63,7 @@ class AuthController extends Controller
     }
 
 
-    // Fungsi untuk menampilkan form register
+    // Method untuk menampilkan halaman register
     public function showRegisterForm()
     {
         $divisis = Divisi::all();
@@ -80,6 +80,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'username' => 'required|string|max:255',
             'password' => 'required|string|confirmed',
+            'nama' => 'required|string|max:255',
             'no_pegawai' => 'required|string|max:255',
             'email' => 'nullable|string|email|max:255',
             'divisi' => 'required|exists:divisi,id',
@@ -118,6 +119,7 @@ class AuthController extends Controller
             $user = User::create([
                 'username' => $request->username,
                 'password' => Hash::make($request->password),
+                'nama' => $request->nama,
                 'no_pegawai' => $request->no_pegawai,
                 'email' => $request->email,
                 'divisi_id' => $request->divisi,
@@ -137,7 +139,7 @@ class AuthController extends Controller
     }
 
 
-    // Fungsi untuk menampilkan form reset password
+    // Method untuk menampilkan halaman reset password
     public function showResetForm()
     {
         return view('auth.pages.reset');
@@ -196,7 +198,7 @@ class AuthController extends Controller
     }
 
 
-    // Fungsi untuk menampilkan form aktivasi
+    // Method untuk menampilkan halaman aktivasi
     public function showActivationForm()
     {
         return view('auth.pages.activation');
@@ -242,5 +244,12 @@ class AuthController extends Controller
             DB::rollBack();
             return redirect()->back()->with('error', 'Terjadi kesalahan saat aktivasi akun. Silahkan coba lagi.');
         }
+    }
+
+    // Fungsi untuk logout
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('auth.login');
     }
 }

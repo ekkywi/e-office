@@ -1,3 +1,7 @@
+@php
+    use Illuminate\Support\Facades\Auth;
+@endphp
+
 <div class="navbar-bg"></div>
 <nav class="navbar navbar-expand-lg main-navbar">
     <a class="navbar-brand sidebar-gone-hide" href="dashboard">E-Office</a>
@@ -55,9 +59,10 @@
                 </div>
             </div>
         </li>
-        <li class="dropdown"><a class="nav-link dropdown-toggle nav-link-lg nav-link-user" data-toggle="dropdown" href="#">
-                <figure class="avatar mr-2 avatar-sm bg-success text-white" data-initial="A"></figure>
-                <div class="d-sm-none d-lg-inline-block">Administrator</div>
+        <li class="dropdown">
+            <a class="nav-link dropdown-toggle nav-link-lg nav-link-user" data-toggle="dropdown" href="#">
+                <figure class="avatar mr-2 avatar-sm bg-success text-white" data-initial="{{ strtoupper(substr(Auth::user()->nama, 0, 1)) }}"></figure>
+                <div class="d-sm-none d-lg-inline-block">{{ Auth::user()->nama }}</div>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-title">Logged in 5 min ago</div>
@@ -71,7 +76,7 @@
                     <i class="fas fa-cog"></i> Settings
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item has-icon text-danger" href="#">
+                <a class="dropdown-item has-icon text-danger" href="/logout">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
             </div>
