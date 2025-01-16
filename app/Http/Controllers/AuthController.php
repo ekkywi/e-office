@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Models\Divisi;
 use App\Models\Bagian;
 use App\Models\Jabatan;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -170,46 +169,21 @@ class AuthController extends Controller
     // Fungsi untuk menangani reset password
     public function reset(Request $request)
     {
-        request()->validate([
-            'username' => 'required|string',
-            'token' => 'required|string',
-            'password' => 'required|string',
-        ]);
-
-        // $validator = Validator::make($request->all(), [
-        //     'username' => 'required|string',
-        //     'token' => 'required|string',
-        //     'password' => 'required|string|confirmed',
-        // ]);
-
-        // if ($validator->fails()) {
-        //     return redirect()->back()
-        //         ->withErrors($validator)
-        //         ->withInput()
-        //         ->with('error', 'Reset password gagal. Silahkan periksa kembali data yang Anda masukkan.');
-        // }
-
         try {
-
-            $user = User::where('username', $request->username)->first();
-
-            if ($user->status_aktivasi === false) {
-                return redirect()->back()->with('error', 'Akun Anda belum diaktivasi. Silahkan aktivasi akun Anda terlebih dahulu.');
-            }
-
-            if (!$user || $user->token !== $request->token) {
-                return redirect()->back()->with('error', 'Username atau token tidak valid.');
-            }
-
-            if (request('password') !== request('password_confirmation')) {
-                return redirect()->back()->with('error', 'Password tidak sama.');
-            }
-
-            if (strlen($request->password) < 8) {
-                return redirect()->back()->with('error', 'Password minimal 8 karakter.');
-            }
+            request()->validate([
+                'username' => 'required|string|exists:user,username',
+                'token' => 'required|string|exists:user,token',
+                'password' => 'required|string|min:8|confirmed',
+            ], [
+                'username.exists' => 'Username tidak ditemukan',
+                'token.exists' => 'Token tidak valid',
+                'password.min' => 'Password minimal 8 karakter',
+                'password.confirmed' => 'Konfirmasi password tidak sesuai',
+            ]);
 
             DB::beginTransaction();
+
+            $user = User::where('username', $request->username)->first();
 
             $user->password = Hash::make($request->password);
             $user->token = Str::random(60);
@@ -217,13 +191,17 @@ class AuthController extends Controller
 
             DB::commit();
 
-            return redirect()->route('auth.reset')->with('success', 'Password berhasil direset');
+            return redirect()->route('auth.activation')->with('success', 'Password berhasil direset. Silahkan login.');
+        } catch (ValidationException $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->withErrors($e->errors())
+                ->withInput();
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Terjadi kesalahan saat mereset password. Silahkan coba lagi.');
         }
     }
-
 
     // Method untuk menampilkan halaman aktivasi
     public function showActivationForm()
@@ -231,34 +209,21 @@ class AuthController extends Controller
         return view('auth.pages.activation');
     }
 
-
     // Fungsi untuk menangani aktivasi
     public function activateUser(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'username' => 'required|string',
-            'token' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput()
-                ->with('error', 'Aktivasi gagal. Silahkan periksa kembali data yang Anda masukkan.');
-        }
-
         try {
+            request()->validate([
+                'username' => 'required|string|exists:user,username',
+                'token' => 'required|string|exists:user,token',
+            ], [
+                'username.exists' => 'Username tidak ditemukan',
+                'token.exists' => 'Token tidak valid',
+            ]);
+
             DB::beginTransaction();
 
             $user = User::where('username', $request->username)->first();
-
-            if ($user->status_aktivasi === true) {
-                return redirect()->back()->with('error', 'Akun Anda sudah diaktivasi. Silahkan login.');
-            }
-
-            if (!$user || $user->token !== $request->token) {
-                return redirect()->back()->with('error', 'Username atau token tidak valid.');
-            }
 
             $user->status_aktivasi = true;
             $user->token = Str::random(60);
@@ -266,10 +231,15 @@ class AuthController extends Controller
 
             DB::commit();
 
-            return redirect()->route('auth.activation')->with('success', 'Akun Anda berhasil diaktivasi. Silahkan login.');
+            return redirect()->route('auth.activation')->with('success', 'Akun Anda berhasil diaktivasi');
+        } catch (ValidationException $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->withErrors($e->errors())
+                ->withInput();
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat aktivasi akun. Silahkan coba lagi.');
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat mengaktivasi akun. Silahkan coba lagi.');
         }
     }
 

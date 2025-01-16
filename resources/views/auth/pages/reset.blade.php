@@ -96,22 +96,40 @@
     <!-- Template JS File -->
     <script src="{{ asset("js/scripts.js") }}"></script>
     <script src="{{ asset("js/custom.js") }}"></script>
-    @if (session("success"))
-        <script>
-            swal({
-                icon: 'success',
-                title: 'Reset Berhasil',
-                text: '{{ session("success") }}',
-            });
-        </script>
-    @endif
-    @if (session("error"))
-        <script>
-            swal({
-                icon: 'error',
-                title: 'Reset Gagal',
-                text: '{{ session("error") }}',
-            });
-        </script>
-    @endif
+    <script>
+        $(document).ready(function() {
+            // Handle success message
+            @if (session("success"))
+                swal({
+                    icon: "success",
+                    title: "Reset Password Berhasil!",
+                    text: "{{ session("success") }}",
+                    type: "success",
+                    confirmButtonText: "OK"
+                });
+            @endif
+
+            // Handle validation errors
+            @if ($errors->any())
+                swal({
+                    icon: "error",
+                    title: "Reset Password Gagal!",
+                    text: "{!! implode('\n', $errors->all()) !!}",
+                    type: "error",
+                    confirmButtonText: "OK"
+                });
+            @endif
+
+            // Handle error message
+            @if (session("error"))
+                swal({
+                    icon: "error",
+                    title: "Sistem Reset Password Gagal!",
+                    text: "{{ session("error") }}",
+                    type: "error",
+                    confirmButtonText: "OK"
+                });
+            @endif
+        });
+    </script>
 @endsection

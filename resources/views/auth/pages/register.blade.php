@@ -204,8 +204,6 @@
                     confirmButtonText: "OK"
                 });
             @endif
-
-
         });
     </script>
 @endsection
