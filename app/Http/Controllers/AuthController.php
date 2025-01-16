@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -32,35 +33,67 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        $user = User::where('username', $request->username)->first();
+        try {
 
-        $throttleKey = 'login|' . ($user ? $user->username : $request->username);
+            $user = User::where('username', $request->username)->first();
 
-        if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
-            $seconds = RateLimiter::availableIn($throttleKey);
-            return response()->json(['error' => 'Terlalu banyak percobaan login. Silakan coba lagi dalam ' . $seconds . ' detik.'], 429);
+            $throttleKey = 'login|' . ($user ? $user->username : $request->username);
+
+            if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
+                $seconds = RateLimiter::availableIn($throttleKey);
+                Log::warning("Terlalu banyak percobaan login", [
+                    'username' => $request->username,
+                    'ip' => $request->ip(),
+                ]);
+                return response()->json(['error' => 'Terlalu banyak percobaan login. Silakan coba lagi dalam ' . $seconds . ' detik.'], 429);
+            }
+
+            if (!$user) {
+                RateLimiter::hit($throttleKey, 60);
+                Log::info("Username tidak ditemukan", [
+                    'username' => $request->username,
+                    'ip' => $request->ip(),
+                ]);
+                return response()->json(['error' => 'Username tidak ditemukan.'], 403);
+            }
+
+            if (!$user || !$user->status_aktivasi) {
+                RateLimiter::hit($throttleKey, 60);
+                Log::info("Akun belum diaktivasi", [
+                    'username' => $request->username,
+                    'ip' => $request->ip(),
+                ]);
+                return response()->json(['error' => 'Akun Anda belum diaktivasi. Silahkan aktivasi akun Anda terlebih dahulu.'], 403);
+            }
+
+            if (!Hash::check($request->password, $user->password)) {
+                RateLimiter::hit($throttleKey, 60);
+                Log::info("Password salah", [
+                    'username' => $request->username,
+                    'ip' => $request->ip(),
+                ]);
+                return response()->json(['error' => 'Username atau password salah.'], 403);
+            }
+
+            RateLimiter::clear($throttleKey);
+            Auth::login($user);
+
+            Log::info("Login berhasil", [
+                'username' => $user->username,
+                'ip' => $request->ip(),
+            ]);
+
+            return response()->json(['success' => 'Login berhasil.'], 200);
+        } catch (\Exception $e) {
+            Log::error("Terjadi kesalahan saat login", [
+                'username' => $request->username,
+                'ip' => $request->ip(),
+                'error' => $e->getMessage(),
+            ]);
+            return response()->json(['error' => 'Terjadi kesalahan saat login. Silahkan coba lagi.'], 500);
         }
-
-        if (!$user) {
-            RateLimiter::hit($throttleKey, 60);
-            return response()->json(['error' => 'Username tidak ditemukan.'], 403);
-        }
-
-        if (!$user || !$user->status_aktivasi) {
-            RateLimiter::hit($throttleKey, 60);
-            return response()->json(['error' => 'Akun Anda belum diaktivasi. Silahkan aktivasi akun Anda terlebih dahulu.'], 403);
-        }
-
-        if (!Hash::check($request->password, $user->password)) {
-            RateLimiter::hit($throttleKey, 60);
-            return response()->json(['error' => 'Username atau password salah.'], 403);
-        }
-
-        RateLimiter::clear($throttleKey);
-        Auth::login($user);
-
-        return response()->json(['success' => 'Login berhasil.'], 200);
     }
+
 
 
     // Method untuk menampilkan halaman register
@@ -74,27 +107,20 @@ class AuthController extends Controller
     }
 
 
-    // Fungsi untuk menangani register
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'username' => 'required|string|max:255',
-            'password' => 'required|string|confirmed',
-            'nama' => 'required|string|max:255',
-            'no_pegawai' => 'required|string|max:255',
-            'email' => 'nullable|string|email|max:255',
+
+        request()->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+            'nama' => 'required|string',
+            'no_pegawai' => 'required|string',
+            'email' => 'nullable|string|email',
             'divisi' => 'required|exists:divisi,id',
             'bagian' => 'required|exists:bagian,id',
             'jabatan' => 'required|exists:jabatan,id',
             'agree' => 'required|accepted',
         ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput()
-                ->with('error', 'Registrasi gagal. Silahkan periksa kembali data yang Anda masukkan.');
-        }
 
         try {
             DB::beginTransaction();
@@ -104,8 +130,26 @@ class AuthController extends Controller
                 ->orWhere('email', $request->email)
                 ->first();
 
-            if ($user) {
-                return redirect()->back()->with('error', 'Username, No Pegawai, atau Email sudah digunakan.');
+            $throttleKey = 'login|' . ($user ? $user->username : $request->username);
+
+            if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
+                $seconds = RateLimiter::availableIn($throttleKey);
+                return redirect()->back()->with('error', 'Terlalu banyak percobaan Register. Silakan coba lagi dalam ' . $seconds . ' detik.');
+            }
+
+            if ($user->username == $request->username) {
+                RateLimiter::hit($throttleKey, 60);
+                return redirect()->back()->with('error', 'Username sudah digunakan.');
+            }
+
+            if ($user->no_pegawai == $request->no_pegawai) {
+                RateLimiter::hit($throttleKey, 60);
+                return redirect()->back()->with('error', 'Nomor pegawai sudah digunakan.');
+            }
+
+            if ($user->email == $request->email) {
+                RateLimiter::hit($throttleKey, 60);
+                return redirect()->back()->with('error', 'Email sudah digunakan.');
             }
 
             if (strlen($request->password) < 8) {
@@ -115,6 +159,8 @@ class AuthController extends Controller
             if (request('password') !== request('password_confirmation')) {
                 return redirect()->back()->with('error', 'Konfirmasi password tidak sama.');
             }
+
+            RateLimiter::clear($throttleKey);
 
             $user = User::create([
                 'username' => $request->username,
