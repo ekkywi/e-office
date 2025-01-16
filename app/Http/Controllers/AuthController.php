@@ -109,58 +109,26 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-
-        request()->validate([
-            'username' => 'required|string',
-            'password' => 'required|string',
-            'nama' => 'required|string',
-            'no_pegawai' => 'required|string',
-            'email' => 'nullable|string|email',
-            'divisi' => 'required|exists:divisi,id',
-            'bagian' => 'required|exists:bagian,id',
-            'jabatan' => 'required|exists:jabatan,id',
-            'agree' => 'required|accepted',
-        ]);
-
         try {
+            $validated = request()->validate([
+                'username' => 'required|string|unique:user,username',
+                'password' => 'required|string|min:8|confirmed',
+                'nama' => 'required|string',
+                'no_pegawai' => 'required|string|unique:user,no_pegawai',
+                'email' => 'nullable|string|email|unique:user,email',
+                'divisi' => 'required|exists:divisi,id',
+                'bagian' => 'required|exists:bagian,id',
+                'jabatan' => 'required|exists:jabatan,id',
+                'agree' => 'required|accepted',
+            ], [
+                'username.unique' => 'Username sudah digunakan',
+                'password.min' => 'Password minimal 8 karakter',
+                'password.confirmed' => 'Konfirmasi password tidak sesuai',
+                'no_pegawai.unique' => 'Nomor pegawai sudah digunakan',
+                'email.unique' => 'Email sudah digunakan',
+            ]);
+
             DB::beginTransaction();
-
-            $user = User::where('username', $request->username)
-                ->orWhere('no_pegawai', $request->no_pegawai)
-                ->orWhere('email', $request->email)
-                ->first();
-
-            $throttleKey = 'login|' . ($user ? $user->username : $request->username);
-
-            if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
-                $seconds = RateLimiter::availableIn($throttleKey);
-                return redirect()->back()->with('error', 'Terlalu banyak percobaan Register. Silakan coba lagi dalam ' . $seconds . ' detik.');
-            }
-
-            if ($user->username == $request->username) {
-                RateLimiter::hit($throttleKey, 60);
-                return redirect()->back()->with('error', 'Username sudah digunakan.');
-            }
-
-            if ($user->no_pegawai == $request->no_pegawai) {
-                RateLimiter::hit($throttleKey, 60);
-                return redirect()->back()->with('error', 'Nomor pegawai sudah digunakan.');
-            }
-
-            if ($user->email == $request->email) {
-                RateLimiter::hit($throttleKey, 60);
-                return redirect()->back()->with('error', 'Email sudah digunakan.');
-            }
-
-            if (strlen($request->password) < 8) {
-                return redirect()->back()->with('error', 'Password minimal 8 karakter.');
-            }
-
-            if (request('password') !== request('password_confirmation')) {
-                return redirect()->back()->with('error', 'Konfirmasi password tidak sama.');
-            }
-
-            RateLimiter::clear($throttleKey);
 
             $user = User::create([
                 'username' => $request->username,
@@ -176,11 +144,18 @@ class AuthController extends Controller
             ]);
 
             DB::commit();
-
-            return redirect()->route('auth.register')->with('success', 'Registrasi berhasil. Silahkan aktivasi akun Anda.');
+            return redirect()->route('auth.register')
+                ->with('success', 'Registrasi berhasil. Silahkan aktivasi akun Anda.');
+        } catch (ValidationException $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->withErrors($e->errors())
+                ->withInput();
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat registrasi. Silahkan coba lagi.');
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan saat registrasi: ' . $e->getMessage())
+                ->withInput();
         }
     }
 
@@ -195,22 +170,26 @@ class AuthController extends Controller
     // Fungsi untuk menangani reset password
     public function reset(Request $request)
     {
-
-        $validator = Validator::make($request->all(), [
+        request()->validate([
             'username' => 'required|string',
             'token' => 'required|string',
-            'password' => 'required|string|confirmed',
+            'password' => 'required|string',
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput()
-                ->with('error', 'Reset password gagal. Silahkan periksa kembali data yang Anda masukkan.');
-        }
+        // $validator = Validator::make($request->all(), [
+        //     'username' => 'required|string',
+        //     'token' => 'required|string',
+        //     'password' => 'required|string|confirmed',
+        // ]);
+
+        // if ($validator->fails()) {
+        //     return redirect()->back()
+        //         ->withErrors($validator)
+        //         ->withInput()
+        //         ->with('error', 'Reset password gagal. Silahkan periksa kembali data yang Anda masukkan.');
+        // }
 
         try {
-            DB::beginTransaction();
 
             $user = User::where('username', $request->username)->first();
 
@@ -229,6 +208,8 @@ class AuthController extends Controller
             if (strlen($request->password) < 8) {
                 return redirect()->back()->with('error', 'Password minimal 8 karakter.');
             }
+
+            DB::beginTransaction();
 
             $user->password = Hash::make($request->password);
             $user->token = Str::random(60);
