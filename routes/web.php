@@ -7,6 +7,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DivisiController;
 use App\Http\Controllers\BagianController;
 use App\Http\Controllers\JabatanController;
+use App\Http\Controllers\UserController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -50,7 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-// Route Bagian
+// Route Halaman Maintenance
 Route::prefix('maintenance')->name('maintenance.')->middleware('auth')->group(function () {
     // Route Bagian
     Route::get('/divisi', [DivisiController::class, 'divisi'])->name('divisi');
@@ -69,4 +71,7 @@ Route::prefix('maintenance')->name('maintenance.')->middleware('auth')->group(fu
     Route::post('/jabatan', [JabatanController::class, 'addJabatan'])->name('jabatan.add');
     Route::post('/jabatan/edit', [JabatanController::class, 'editJabatan'])->name('jabatan.edit');
     Route::post('/jabatan/delete/{id}', [JabatanController::class, 'deleteJabatan'])->name('jabatan.delete');
+
+    // Route User
+    Route::get('/user', [UserController::class, 'user'])->name('user');
 });

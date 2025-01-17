@@ -15,17 +15,6 @@
             </div>
         </div>
 
-        @if (session("success"))
-            <div class="alert alert-success">
-                {{ session("success") }}
-            </div>
-        @endif
-        @if (session("error"))
-            <div class="alert alert-danger">
-                {{ session("error") }}
-            </div>
-        @endif
-
         <div class="section-body">
             <div class="row">
                 <div class="col-12">
@@ -50,12 +39,7 @@
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <tr>
-                                        <th>
-                                            <div class="custom-checkbox custom-control">
-                                                <input class="custom-control-input" data-checkbox-role="dad" data-checkboxes="mygroup" id="checkbox-all" type="checkbox">
-                                                <label class="custom-control-label" for="checkbox-all">&nbsp;</label>
-                                            </div>
-                                        </th>
+                                        <th>No</th>
                                         <th>Nama</th>
                                         <th>Nomor Pegawai</th>
                                         <th>Email</th>
@@ -64,23 +48,22 @@
                                         <th>Jabatan</th>
                                         <th>Action</th>
                                     </tr>
-                                    @foreach ($users as $user)
+                                    @foreach ($users as $index => $user)
                                         <tr>
-                                            <td>
-                                                <div class="custom-checkbox custom-control">
-                                                    <input class="custom-control-input" data-checkboxes="mygroup" id="checkbox-{{ $user->id }}" type="checkbox">
-                                                    <label class="custom-control-label" for="checkbox-{{ $user->id }}">&nbsp;</label>
-                                                </div>
-                                            </td>
-                                            <td>{{ $user->name }}</td>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $user->nama }}</td>
                                             <td>{{ $user->no_pegawai }}</td>
                                             <td>{{ $user->email }}</td>
-                                            <td>{{ $user->divisi->name ?? "-" }}</td>
-                                            <td>{{ $user->bagian->name ?? "-" }}</td>
-                                            <td>{{ $user->jabatan->name ?? "-" }}</td>
+                                            <td>{{ $user->divisi->nama_divisi ?? "-" }}</td>
+                                            <td>{{ $user->bagian->nama_bagian ?? "-" }}</td>
+                                            <td>{{ $user->jabatan->nama_jabatan ?? "-" }}</td>
                                             <td>
-                                                <button class="btn btn-primary btn-edit-user" data-bagian_id="{{ $user->bagian_id }}" data-divisi_id="{{ $user->divisi_id }}" data-email="{{ $user->email }}" data-id="{{ $user->id }}" data-jabatan_id="{{ $user->jabatan_id }}" data-name="{{ $user->name }}" data-no_pegawai="{{ $user->no_pegawai }}" data-target="#editUserModal" data-toggle="modal" data-username="{{ $user->username }}">Edit</button>
-                                                <button class="btn btn-danger" data-id="{{ $user->id }}" data-name="{{ $user->name }}" data-target="#deleteUserModal" data-toggle="modal">Hapus</button>
+                                                <button class="btn btn-primary btn-edit-user" data-id="{{ $user->id }}" data-name="{{ $user->username }}" data-target="#editUserModal" data-toggle="modal">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-danger btn-delete-user" data-id="{{ $user->id }}" data-name="{{ $user->username }}">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -103,7 +86,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route("user.store") }}" method="POST">
+                <form action="#" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -130,7 +113,7 @@
                             <label for="divisi_id">Divisi</label>
                             <select class="form-control" id="divisi_id" name="divisi_id">
                                 @foreach ($divisis as $divisi)
-                                    <option value="{{ $divisi->id }}">{{ $divisi->name }}</option>
+                                    <option value="{{ $divisi->id }}">{{ $divisi->nama_divisi }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -138,7 +121,7 @@
                             <label for="bagian_id">Bagian</label>
                             <select class="form-control" id="bagian_id" name="bagian_id">
                                 @foreach ($bagians as $bagian)
-                                    <option value="{{ $bagian->id }}">{{ $bagian->name }}</option>
+                                    <option value="{{ $bagian->id }}">{{ $bagian->nama_bagian }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -146,7 +129,7 @@
                             <label for="jabatan_id">Jabatan</label>
                             <select class="form-control" id="jabatan_id" name="jabatan_id">
                                 @foreach ($jabatans as $jabatan)
-                                    <option value="{{ $jabatan->id }}">{{ $jabatan->name }}</option>
+                                    <option value="{{ $jabatan->id }}">{{ $jabatan->nama_jabatan }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -170,9 +153,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route("user.update") }}" method="POST">
+                <form action="#" method="POST">
                     @csrf
-                    @method("PUT")
                     <div class="modal-body">
                         <input id="edit_user_id" name="id" type="hidden">
                         <div class="form-group">
@@ -238,9 +220,8 @@
                     <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                 </div>
-                <form action="{{ route("user.destroy") }}" method="POST">
+                <form action="#" method="POST">
                     @csrf
-                    @method("DELETE")
                     <div class="modal-body">
                         <input id="delete_user_id" name="id" type="hidden">
                         <p>Apakah Anda yakin ingin menghapus pengguna <strong id="delete_user_name"></strong>?</p>
@@ -256,8 +237,8 @@
     </div>
 @endsection
 
-@section("scripts")
-    <!-- General JS Scripts -->
+@section("script")
+    {{-- General JavaScript Script --}}
     <script src="{{ asset("modules/jquery/jquery.min.js") }}"></script>
     <script src="{{ asset("modules/popper/popper.js") }}"></script>
     <script src="{{ asset("modules/tooltip/tooltip.js") }}"></script>
@@ -266,47 +247,12 @@
     <script src="{{ asset("modules/moment/moment.min.js") }}"></script>
     <script src="{{ asset("js/stisla.js") }}"></script>
 
-    <!-- Template JS File -->
+    {{-- JavaScript Libraries --}}
+    <script src="{{ asset("modules/sweetalert/sweetalert.min.js") }}"></script>
+
+    {{-- Template JavaScript Script --}}
     <script src="{{ asset("js/scripts.js") }}"></script>
     <script src="{{ asset("js/custom.js") }}"></script>
 
-    <!-- JS Libraies -->
-    <script src="{{ asset("modules/jquery-ui/jquery-ui.min.js") }}"></script>
-
-    <!-- Page Specific JS File -->
-    <script src="{{ asset("js/pages/components-table.js") }}"></script>
-
-    <script>
-        $('#editUserModal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget);
-            var id = button.data('id');
-            var username = button.data('username');
-            var name = button.data('name');
-            var no_pegawai = button.data('no_pegawai');
-            var email = button.data('email');
-            var divisi_id = button.data('divisi_id');
-            var bagian_id = button.data('bagian_id');
-            var jabatan_id = button.data('jabatan_id');
-
-            var modal = $(this);
-            modal.find('#edit_user_id').val(id);
-            modal.find('#edit_username').val(username);
-            modal.find('#edit_name').val(name);
-            modal.find('#edit_no_pegawai').val(no_pegawai);
-            modal.find('#edit_email').val(email);
-            modal.find('#edit_divisi_id').val(divisi_id);
-            modal.find('#edit_bagian_id').val(bagian_id);
-            modal.find('#edit_jabatan_id').val(jabatan_id);
-        });
-
-        $('#deleteUserModal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget);
-            var id = button.data('id');
-            var name = button.data('name');
-
-            var modal = $(this);
-            modal.find('#delete_user_id').val(id);
-            modal.find('#delete_user_name').text(name);
-        });
-    </script>
+    {{-- Function Script --}}
 @endsection

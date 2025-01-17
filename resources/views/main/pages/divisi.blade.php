@@ -128,7 +128,7 @@
 @endsection
 
 @section("script")
-    <!-- General JS Scripts -->
+    {{-- General JavaScript Script --}}
     <script src="{{ asset("modules/jquery/jquery.min.js") }}"></script>
     <script src="{{ asset("modules/popper/popper.js") }}"></script>
     <script src="{{ asset("modules/tooltip/tooltip.js") }}"></script>
@@ -136,15 +136,15 @@
     <script src="{{ asset("modules/nicescroll/jquery.nicescroll.min.js") }}"></script>
     <script src="{{ asset("modules/moment/moment.min.js") }}"></script>
     <script src="{{ asset("js/stisla.js") }}"></script>
-    <!-- JS Libraies -->
-    <script src="{{ asset("modules/jquery-pwstrength/jquery.pwstrength.min.js") }}"></script>
-    <script src="{{ asset("modules/jquery-selectric/jquery.selectric.min.js") }}"></script>
+
+    {{-- JavaScript Libraries --}}
     <script src="{{ asset("modules/sweetalert/sweetalert.min.js") }}"></script>
-    <!-- Page Specific JS File -->
-    <script src="{{ asset("js/pages/auth-register.js") }}"></script>
-    <!-- Template JS File -->
+
+    {{-- Template JavaScript Script --}}
     <script src="{{ asset("js/scripts.js") }}"></script>
     <script src="{{ asset("js/custom.js") }}"></script>
+
+    {{-- Function Script --}}
     <script>
         $(document).ready(function() {
             $('.btn-edit-divisi').on('click', function() {
