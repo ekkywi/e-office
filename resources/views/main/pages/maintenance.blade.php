@@ -27,7 +27,7 @@
 
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="card card-menu">
-                        <a class="card-body text-center" href="#">
+                        <a class="card-body text-center" href="{{ url("maintenance/bagian") }}">
                             <i class="fas fa-building custom-icon-size mb-3"></i>
                             <h5 class="card-title">Bagian</h5>
                         </a>

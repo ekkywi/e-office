@@ -15,17 +15,6 @@
             </div>
         </div>
 
-        @if (session("success"))
-            <div class="alert alert-success">
-                {{ session("success") }}
-            </div>
-        @endif
-        @if (session("error"))
-            <div class="alert alert-danger">
-                {{ session("error") }}
-            </div>
-        @endif
-
         <div class="section-body">
             <div class="row">
                 <div class="col-12">
@@ -57,11 +46,14 @@
                                     @foreach ($bagians as $index => $bagian)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
-                                            <td>{{ $bagian->name }}</td>
+                                            <td>{{ $bagian->nama_bagian }}</td>
                                             <td>
-                                                <button class="btn btn-primary btn-edit-bagian" data-id="{{ $bagian->id }}" data-name="{{ $bagian->name }}" data-target="#editBagianModal" data-toggle="modal">Edit</button>
-                                                <button class="btn btn-danger" data-id="{{ $bagian->id }}" data-name="{{ $bagian->nama_bagian }}" data-target="#deleteBagianModal" data-toggle="modal">Hapus</button>
-                                            </td>
+                                                <button class="btn btn-primary btn-edit-bagian" data-id="{{ $bagian->id }}" data-name="{{ $bagian->nama_bagian }}" data-target="#editBagianModal" data-toggle="modal">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-danger btn-delete-bagian" data-id="{{ $bagian->id }}" data-name="{{ $bagian->nama_bagian }}">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                         </tr>
                                     @endforeach
                                 </table>
@@ -83,7 +75,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route("bagian.store") }}" method="POST">
+                <form action="{{ route("maintenance.bagian.add") }}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -110,9 +102,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route("bagian.update") }}" method="POST">
+                <form action="{{ route("maintenance.bagian.edit") }}" method="POST">
                     @csrf
-                    @method("PUT")
                     <div class="modal-body">
                         <input id="edit_bagian_id" name="id" type="hidden">
                         <div class="form-group">
@@ -129,34 +120,13 @@
         </div>
     </div>
 
-    <!-- Modal Hapus Bagian -->
-    <div aria-hidden="true" aria-labelledby="deleteBagianModalLabel" class="modal fade" id="deleteBagianModal" role="dialog" tabindex="-1">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteBagianModalLabel">Konfirmasi Hapus Bagian</h5>
-                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="{{ route("bagian.destroy") }}" method="POST">
-                    @csrf
-                    @method("DELETE")
-                    <div class="modal-body">
-                        <input id="delete_bagian_id" name="id" type="hidden">
-                        <p>Apakah Anda yakin ingin menghapus bagian <strong id="delete_bagian_name"></strong>?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Batal</button>
-                        <button class="btn btn-danger" type="submit">Hapus</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    <!-- Delete Form -->
+    <form id="deleteForm" method="POST" style="display: none;">
+        @csrf
+    </form>
 @endsection
 
-@section("scripts")
+@section("js")
     <!-- General JS Scripts -->
     <script src="{{ asset("modules/jquery/jquery.min.js") }}"></script>
     <script src="{{ asset("modules/popper/popper.js") }}"></script>
@@ -165,36 +135,100 @@
     <script src="{{ asset("modules/nicescroll/jquery.nicescroll.min.js") }}"></script>
     <script src="{{ asset("modules/moment/moment.min.js") }}"></script>
     <script src="{{ asset("js/stisla.js") }}"></script>
-
+    <!-- JS Libraies -->
+    <script src="{{ asset("modules/jquery-pwstrength/jquery.pwstrength.min.js") }}"></script>
+    <script src="{{ asset("modules/jquery-selectric/jquery.selectric.min.js") }}"></script>
+    <script src="{{ asset("modules/sweetalert/sweetalert.min.js") }}"></script>
+    <!-- Page Specific JS File -->
+    <script src="{{ asset("js/pages/auth-register.js") }}"></script>
     <!-- Template JS File -->
     <script src="{{ asset("js/scripts.js") }}"></script>
     <script src="{{ asset("js/custom.js") }}"></script>
-
-    <!-- JS Libraies -->
-    <script src="{{ asset("modules/jquery-ui/jquery-ui.min.js") }}"></script>
-
-    <!-- Page Specific JS File -->
-    <script src="{{ asset("js/pages/components-table.js") }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.btn-edit-bagian').on('click', function() {
+                var id = $(this).data('id');
+                var name = $(this).data('name');
+                $('#edit_bagian_id').val(id);
+                $('#edit_nama_bagian').val(name);
+            });
+        });
+    </script>
 
     <script>
-        $('#editBagianModal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget);
-            var id = button.data('id');
-            var name = button.data('name');
+        $(document).ready(function() {
+            $('.btn-delete-bagian').on('click', function() {
+                var id = $(this).data('id');
+                var name = $(this).data('name');
 
-            var modal = $(this);
-            modal.find('#edit_bagian_id').val(id);
-            modal.find('#edit_nama_bagian').val(name);
+                swal({
+                    title: 'Apakah anda yakin?',
+                    text: 'Ingin menghapus bagian ' + name + '?',
+                    icon: 'warning',
+                    buttons: {
+                        cancel: {
+                            text: 'Batal',
+                            value: null,
+                            visible: true,
+                            className: 'btn btn-secondary',
+                            closeModal: true,
+                        },
+                        confirm: {
+                            text: 'Hapus!',
+                            value: true,
+                            visible: true,
+                            className: 'btn btn-primary',
+                            closeModal: true
+                        }
+                    },
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        var form = $('#deleteForm');
+                        form.attr('action', '/maintenance/bagian/delete/' + id);
+                        form.submit();
+                    }
+                });
+            });
         });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Handle success message
+            @if (session("success"))
+                swal({
+                    icon: "success",
+                    title: "Berhasil!",
+                    text: "{{ session("success") }}",
+                    type: "success",
+                    timer: 1500,
+                    button: false
+                });
+            @endif
 
-        $('#deleteBagianModal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget);
-            var id = button.data('id');
-            var name = button.data('name');
+            // Handle validation errors
+            @if ($errors->any())
+                swal({
+                    icon: "error",
+                    title: "Gagal!",
+                    text: "{!! implode('\n', $errors->all()) !!}",
+                    type: "error",
+                    timer: 1500,
+                    buttons: false
+                });
+            @endif
 
-            var modal = $(this);
-            modal.find('#delete_bagian_id').val(id);
-            modal.find('#delete_bagian_name').text(name);
+            // Handle error message
+            @if (session("error"))
+                swal({
+                    icon: "error",
+                    title: "Sistem Gagal!",
+                    text: "{{ session("error") }}",
+                    type: "error",
+                    timer: 1500,
+                    buttons: false
+                });
+            @endif
         });
     </script>
 @endsection

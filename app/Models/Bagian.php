@@ -24,4 +24,8 @@ class Bagian extends Model
             }
         });
     }
+
+    protected $fillable = [
+        'nama_bagian',
+    ];
 }
