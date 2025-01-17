@@ -24,4 +24,8 @@ class Divisi extends Model
             }
         });
     }
+
+    protected $fillable = [
+        'nama_divisi',
+    ];
 }

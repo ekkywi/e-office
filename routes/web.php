@@ -44,4 +44,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-Route::prefix('maintenance')->name('maintenance.')->middleware('auth')->group(function () {});
+Route::prefix('maintenance')->name('maintenance.')->middleware('auth')->group(function () {
+    Route::get('/divisi', [DivisiController::class, 'divisi'])->name('divisi');
+    Route::post('/divisi', [DivisiController::class, 'addDivisi'])->name('divisi.add');
+    Route::post('/divisi/edit', [DivisiController::class, 'editDivisi'])->name('divisi.edit');
+    Route::post('divisi/delete/{id}', [DivisiController::class, 'deleteDivisi'])->name('divisi.delete');
+});

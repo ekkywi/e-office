@@ -34,21 +34,7 @@
         </div>
     </div>
 
-    <!-- General JS Scripts -->
-    <script src="{{ asset("modules/jquery/jquery.min.js") }}"></script>
-    <script src="{{ asset("modules/popper/popper.js") }}"></script>
-    <script src="{{ asset("modules/tooltip/tooltip.js") }}"></script>
-    <script src="{{ asset("modules/bootstrap/js/bootstrap.min.js") }}"></script>
-    <script src="{{ asset("modules/nicescroll/jquery.nicescroll.min.js") }}"></script>
-    <script src="{{ asset("modules/moment/moment.min.js") }}"></script>
-    <script src="{{ asset("js/stisla.js") }}"></script>
-    <!-- Template JS File -->
-    <script src="{{ asset("js/scripts.js") }}"></script>
-    <script src="{{ asset("js/custom.js") }}"></script>
-    <!-- JS Libraies -->
-    <script src="{{ asset("modules/jquery-ui/jquery-ui.min.js") }}"></script>
-    <!-- Page Specific JS File -->
-    <script src="{{ asset("js/pages/components-table.js") }}"></script>
+    @yield("js")
 </body>
 
 </html>
