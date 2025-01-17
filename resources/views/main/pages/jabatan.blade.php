@@ -15,17 +15,6 @@
             </div>
         </div>
 
-        @if (session("success"))
-            <div class="alert alert-success">
-                {{ session("success") }}
-            </div>
-        @endif
-        @if (session("error"))
-            <div class="alert alert-danger">
-                {{ session("error") }}
-            </div>
-        @endif
-
         <div class="section-body">
             <div class="row">
                 <div class="col-12">
@@ -57,10 +46,14 @@
                                     @foreach ($jabatans as $index => $jabatan)
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
-                                            <td>{{ $jabatan->name }}</td>
+                                            <td>{{ $jabatan->nama_jabatan }}</td>
                                             <td>
-                                                <button class="btn btn-primary btn-edit-bagian" data-id="{{ $jabatan->id }}" data-name="{{ $jabatan->name }}" data-target="#editJabatanModal" data-toggle="modal">Edit</button>
-                                                <button class="btn btn-danger" data-id="{{ $jabatan->id }}" data-name="{{ $jabatan->nama_jabatan }}" data-target="#deleteJabatanModal" data-toggle="modal">Hapus</button>
+                                                <button class="btn btn-primary btn-edit-jabatan" data-id="{{ $jabatan->id }}" data-name="{{ $jabatan->nama_jabatan }}" data-target="#editJabatanModal" data-toggle="modal">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-danger btn-delete-jabatan" data-id="{{ $jabatan->id }}" data-name="{{ $jabatan->nama_jabatan }}">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -83,7 +76,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route("jabatan.store") }}" method="POST">
+                <form action="{{ route("maintenance.jabatan.add") }}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -110,9 +103,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route("jabatan.update") }}" method="POST">
+                <form action="{{ route("maintenance.jabatan.edit") }}" method="POST">
                     @csrf
-                    @method("PUT")
                     <div class="modal-body">
                         <input id="edit_jabatan_id" name="id" type="hidden">
                         <div class="form-group">
@@ -129,34 +121,13 @@
         </div>
     </div>
 
-    <!-- Modal Hapus Jabatan -->
-    <div aria-hidden="true" aria-labelledby="deleteJabatanModalLabel" class="modal fade" id="deleteJabatanModal" role="dialog" tabindex="-1">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteJabatanModalLabel">Konfirmasi Hapus Jabatan</h5>
-                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="{{ route("jabatan.destroy") }}" method="POST">
-                    @csrf
-                    @method("DELETE")
-                    <div class="modal-body">
-                        <input id="delete_jabatan_id" name="id" type="hidden">
-                        <p>Apakah Anda yakin ingin menghapus jabatan <strong id="delete_jabatan_name"></strong>?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Batal</button>
-                        <button class="btn btn-danger" type="submit">Hapus</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    <!-- Delete Form -->
+    <form id="deleteForm" method="POST" style="display: none;">
+        @csrf
+    </form>
 @endsection
 
-@section("scripts")
+@section("script")
     <!-- General JS Scripts -->
     <script src="{{ asset("modules/jquery/jquery.min.js") }}"></script>
     <script src="{{ asset("modules/popper/popper.js") }}"></script>
@@ -165,36 +136,99 @@
     <script src="{{ asset("modules/nicescroll/jquery.nicescroll.min.js") }}"></script>
     <script src="{{ asset("modules/moment/moment.min.js") }}"></script>
     <script src="{{ asset("js/stisla.js") }}"></script>
-
+    <!-- JS Libraies -->
+    <script src="{{ asset("modules/jquery-pwstrength/jquery.pwstrength.min.js") }}"></script>
+    <script src="{{ asset("modules/jquery-selectric/jquery.selectric.min.js") }}"></script>
+    <script src="{{ asset("modules/sweetalert/sweetalert.min.js") }}"></script>
+    <!-- Page Specific JS File -->
+    <script src="{{ asset("js/pages/auth-register.js") }}"></script>
     <!-- Template JS File -->
     <script src="{{ asset("js/scripts.js") }}"></script>
     <script src="{{ asset("js/custom.js") }}"></script>
-
-    <!-- JS Libraies -->
-    <script src="{{ asset("modules/jquery-ui/jquery-ui.min.js") }}"></script>
-
-    <!-- Page Specific JS File -->
-    <script src="{{ asset("js/pages/components-table.js") }}"></script>
-
     <script>
-        $('#editJabatanModal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget);
-            var id = button.data('id');
-            var name = button.data('name');
-
-            var modal = $(this);
-            modal.find('#edit_jabatan_id').val(id);
-            modal.find('#edit_nama_jabatan').val(name);
+        $(document).ready(function() {
+            $('.btn-edit-jabatan').on('click', function() {
+                var id = $(this).data('id');
+                var name = $(this).data('name');
+                $('#edit_jabatan_id').val(id);
+                $('#edit_nama_jabatan').val(name);
+            });
         });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('.btn-delete-jabatan').on('click', function() {
+                var id = $(this).data('id');
+                var name = $(this).data('name');
 
-        $('#deleteJabatanModal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget);
-            var id = button.data('id');
-            var name = button.data('name');
+                swal({
+                    title: "Apakah Anda Yakin?",
+                    text: "Data Jabatan " + name + " akan dihapus",
+                    icon: "warning",
+                    buttons: {
+                        cancel: {
+                            text: "Batal",
+                            value: null,
+                            visible: true,
+                            className: "btn btn-secondary",
+                            closeModal: true
+                        },
+                        confirm: {
+                            text: "Hapus",
+                            value: true,
+                            visible: true,
+                            className: "btn btn-primary",
+                            closeModal: true
+                        }
+                    },
+                    dangerMode: true
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        var form = $('#deleteForm');
+                        form.attr('action', '/maintenance/jabatan/delete/' + id);
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Handle success message
+            @if (session("success"))
+                swal({
+                    icon: "success",
+                    title: "Berhasil!",
+                    text: "{{ session("success") }}",
+                    type: "success",
+                    timer: 1500,
+                    button: false
+                });
+            @endif
 
-            var modal = $(this);
-            modal.find('#delete_jabatan_id').val(id);
-            modal.find('#delete_jabatan_name').text(name);
+            // Handle validation errors
+            @if ($errors->any())
+                swal({
+                    icon: "error",
+                    title: "Gagal!",
+                    text: "{!! implode('\n', $errors->all()) !!}",
+                    type: "error",
+                    timer: 1500,
+                    buttons: false
+                });
+            @endif
+
+            // Handle error message
+            @if (session("error"))
+                swal({
+                    icon: "error",
+                    title: "Sistem Gagal!",
+                    text: "{{ session("error") }}",
+                    type: "error",
+                    timer: 1500,
+                    buttons: false
+                });
+            @endif
         });
     </script>
 @endsection

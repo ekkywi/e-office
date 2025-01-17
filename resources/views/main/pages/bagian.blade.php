@@ -126,7 +126,7 @@
     </form>
 @endsection
 
-@section("js")
+@section("script")
     <!-- General JS Scripts -->
     <script src="{{ asset("modules/jquery/jquery.min.js") }}"></script>
     <script src="{{ asset("modules/popper/popper.js") }}"></script>

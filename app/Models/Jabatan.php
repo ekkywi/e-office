@@ -24,4 +24,8 @@ class Jabatan extends Model
             }
         });
     }
+
+    protected $fillable = [
+        'nama_jabatan',
+    ];
 }

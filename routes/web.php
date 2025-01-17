@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DivisiController;
 use App\Http\Controllers\BagianController;
+use App\Http\Controllers\JabatanController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -62,4 +63,10 @@ Route::prefix('maintenance')->name('maintenance.')->middleware('auth')->group(fu
     Route::post('/bagian', [BagianController::class, 'addBagian'])->name('bagian.add');
     Route::post('/bagian/edit', [BagianController::class, 'editBagian'])->name('bagian.edit');
     Route::post('/bagian/delete/{id}', [BagianController::class, 'deleteBagian'])->name('bagian.delete');
+
+    // Route Jabatan
+    Route::get('/jabatan', [JabatanController::class, 'jabatan'])->name('jabatan');
+    Route::post('/jabatan', [JabatanController::class, 'addJabatan'])->name('jabatan.add');
+    Route::post('/jabatan/edit', [JabatanController::class, 'editJabatan'])->name('jabatan.edit');
+    Route::post('/jabatan/delete/{id}', [JabatanController::class, 'deleteJabatan'])->name('jabatan.delete');
 });
