@@ -74,4 +74,7 @@ Route::prefix('maintenance')->name('maintenance.')->middleware('auth')->group(fu
 
     // Route User
     Route::get('/user', [UserController::class, 'user'])->name('user');
+    Route::post('/user', [UserController::class, 'addUser'])->name('user.add');
+    Route::post('/user/edit', [UserController::class, 'editUser'])->name('user.edit');
+    Route::post('/user/delete/{id}', [UserController::class, 'deleteUser'])->name('user.delete');
 });
