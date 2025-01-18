@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <meta content="{{ csrf_token() }}" name="csrf-token">
     <title>@yield("title")</title>
     <!-- General CSS Files -->
     <link href="{{ asset("modules/bootstrap/css/bootstrap.min.css") }}" rel="stylesheet">

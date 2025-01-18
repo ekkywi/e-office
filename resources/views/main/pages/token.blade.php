@@ -32,31 +32,26 @@
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
-                                <table class="table table-striped">
+                                <table class="table table-striped table-md text-center">
                                     <tr>
                                         <th>
-                                            <div class="custom-checkbox custom-control">
-                                                <input class="custom-control-input" data-checkbox-role="dad" data-checkboxes="mygroup" id="checkbox-all" type="checkbox">
-                                                <label class="custom-control-label" for="checkbox-all">&nbsp;</label>
-                                            </div>
+                                            No
                                         </th>
                                         <th>Nama</th>
                                         <th>Action</th>
                                     </tr>
-                                    <!-- Add your table rows here -->
-                                    <tr>
-                                        <td>
-                                            <div class="custom-checkbox custom-control">
-                                                <input class="custom-control-input" data-checkboxes="mygroup" id="checkbox-1" type="checkbox">
-                                                <label class="custom-control-label" for="checkbox-1">&nbsp;</label>
-                                            </div>
-                                        </td>
-                                        <td>Contoh Nama</td>
-                                        <td>
-                                            <button class="btn btn-success btn-generate-token" data-id="1">Generate Token</button>
-                                        </td>
-                                    </tr>
-                                    <!-- Add more rows as needed -->
+                                    @foreach ($users as $index => $user)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $user->nama }}</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-generate-token" data-id="{{ $user->id }}" data-nama="{{ $user->nama }}" data-token="{{ $user->token }}">
+                                                    <i class="fas fa-key"></i>
+                                                    <span>Generate Token</span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </table>
                             </div>
                         </div>
@@ -66,27 +61,84 @@
         </div>
     </section>
 
-    <!-- Modal -->
-    <div aria-hidden="true" aria-labelledby="addUserModalLabel" class="modal fade" id="addUserModal" role="dialog" tabindex="-1">
+    {{-- Modal Generate Token --}}
+    <div aria-hidden="true" aria-labelledby="tokenModalLabel" class="modal fade" id="tokenModal" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addUserModalLabel">Tambah Data Pengguna</h5>
+                    <h5 class="modal-title" id="tokenModalLabel">Token for <span id="userName"></span></h5>
                     <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="#" method="POST">
-                    @csrf
-                    <div class="modal-body">
-                        <!-- Form fields here -->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Token:</label>
+                        <input class="form-control" id="userToken" readonly type="text">
                     </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
-                        <button class="btn btn-primary" type="submit">Save changes</button>
-                    </div>
-                </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                </div>
             </div>
         </div>
     </div>
+@endsection
+
+@section("script")
+    {{-- General JavaScript Script --}}
+    <script src="{{ asset("modules/jquery/jquery.min.js") }}"></script>
+    <script src="{{ asset("modules/popper/popper.js") }}"></script>
+    <script src="{{ asset("modules/tooltip/tooltip.js") }}"></script>
+    <script src="{{ asset("modules/bootstrap/js/bootstrap.min.js") }}"></script>
+    <script src="{{ asset("modules/nicescroll/jquery.nicescroll.min.js") }}"></script>
+    <script src="{{ asset("modules/moment/moment.min.js") }}"></script>
+    <script src="{{ asset("js/stisla.js") }}"></script>
+    {{-- JavaScript Libraries --}}
+    <script src="{{ asset("modules/sweetalert/sweetalert.min.js") }}"></script>
+    {{-- Template JavaScript Script --}}
+    <script src="{{ asset("js/scripts.js") }}"></script>
+    <script src="{{ asset("js/custom.js") }}"></script>
+    {{-- Function Script --}}
+    <script>
+        $(document).ready(function() {
+            $('.btn-generate-token').on('click', function() {
+                let btn = $(this);
+                let userId = btn.data('id');
+                let userName = btn.data('nama');
+
+                // Show loading state
+                btn.prop('disabled', true);
+                btn.html('<i class="fas fa-spinner fa-spin"></i> Generating...');
+
+                $.ajax({
+                    url: `/token/generate/${userId}`,
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            $('#userName').text(userName);
+                            $('#userToken').val(response.token);
+                            $('#tokenModal').modal('show');
+
+                            // Update button data attribute
+                            btn.data('token', response.token);
+                        } else {
+                            swal('Error', 'Failed to generate token', 'error');
+                        }
+                    },
+                    error: function() {
+                        swal('Error', 'Server error occurred', 'error');
+                    },
+                    complete: function() {
+                        // Reset button state
+                        btn.prop('disabled', false);
+                        btn.html('<i class="fas fa-key"></i> Generate Token');
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

@@ -8,6 +8,8 @@ use App\Http\Controllers\DivisiController;
 use App\Http\Controllers\BagianController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TokenController;
+use Doctrine\Common\Lexer\Token;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,4 +79,8 @@ Route::prefix('maintenance')->name('maintenance.')->middleware('auth')->group(fu
     Route::post('/user', [UserController::class, 'addUser'])->name('user.add');
     Route::post('/user/edit', [UserController::class, 'editUser'])->name('user.edit');
     Route::post('/user/delete/{id}', [UserController::class, 'deleteUser'])->name('user.delete');
+
+    // Route Token
+    Route::get('/token', [TokenController::class, 'tokenIndex'])->name('token.index');
+    Route::post('/token/generate/{id}', [TokenController::class, 'generateToken'])->name('token.generate');
 });

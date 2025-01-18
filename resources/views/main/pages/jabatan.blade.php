@@ -37,7 +37,7 @@
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
-                                <table class="table table-striped">
+                                <table class="table table-striped text-center">
                                     <tr>
                                         <th>No</th>
                                         <th>Nama Jabatan</th>
@@ -50,9 +50,11 @@
                                             <td>
                                                 <button class="btn btn-primary btn-edit-jabatan" data-id="{{ $jabatan->id }}" data-name="{{ $jabatan->nama_jabatan }}" data-target="#editJabatanModal" data-toggle="modal">
                                                     <i class="fas fa-edit"></i>
+                                                    <span>Edit</span>
                                                 </button>
                                                 <button class="btn btn-danger btn-delete-jabatan" data-id="{{ $jabatan->id }}" data-name="{{ $jabatan->nama_jabatan }}">
                                                     <i class="fas fa-trash"></i>
+                                                    <span>Hapus</span>
                                                 </button>
                                             </td>
                                         </tr>

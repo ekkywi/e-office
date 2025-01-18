@@ -37,7 +37,7 @@
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
-                                <table class="table table-striped">
+                                <table class="table table-striped text-center">
                                     <tr>
                                         <th>No</th>
                                         <th>Nama Bagian</th>
@@ -50,9 +50,11 @@
                                             <td>
                                                 <button class="btn btn-primary btn-edit-bagian" data-id="{{ $bagian->id }}" data-name="{{ $bagian->nama_bagian }}" data-target="#editBagianModal" data-toggle="modal">
                                                     <i class="fas fa-edit"></i>
+                                                    <span>Edit</span>
                                                 </button>
                                                 <button class="btn btn-danger btn-delete-bagian" data-id="{{ $bagian->id }}" data-name="{{ $bagian->nama_bagian }}">
                                                     <i class="fas fa-trash"></i>
+                                                    <span>Hapus</span>
                                                 </button>
                                         </tr>
                                     @endforeach
