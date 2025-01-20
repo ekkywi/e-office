@@ -82,5 +82,5 @@ Route::prefix('maintenance')->name('maintenance.')->middleware('auth')->group(fu
 
     // Route Token
     Route::get('/token', [TokenController::class, 'tokenIndex'])->name('token.index');
-    Route::post('/token/generate/{id}', [TokenController::class, 'generateToken'])->name('token.generate');
+    Route::post('/token', [TokenController::class, 'generateToken'])->name('token.generate');
 });

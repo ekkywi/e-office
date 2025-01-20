@@ -30,30 +30,32 @@
                                 </form>
                             </div>
                         </div>
-                        <div class="card-body p-0">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-md text-center">
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-md text-center">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama</th>
+                                    <th>Action</th>
+                                </tr>
+                                @foreach ($users as $index => $user)
                                     <tr>
-                                        <th>
-                                            No
-                                        </th>
-                                        <th>Nama</th>
-                                        <th>Action</th>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $user->nama }}</td>
+                                        <td>
+                                            <button class= "btn btn-info btn-lihat-token" data-id="{{ $user->id }}" data-nama="{{ $user->nama }}" data-token="{{ $user->token }}">
+                                                <i class="fas fa-eye"></i>
+                                                <span>Lihat</span>
+                                            </button>
+                                            <button class="btn btn-primary btn-generate-token" data-id="{{ $user->id }}" data-nama="{{ $user->nama }}" data-token="{{ $user->token }}">
+                                                <i class="fas fa-key"></i>
+                                                <span>Generate</span>
+                                            </button>
+                                        </td>
                                     </tr>
-                                    @foreach ($users as $index => $user)
-                                        <tr>
-                                            <td>{{ $index + 1 }}</td>
-                                            <td>{{ $user->nama }}</td>
-                                            <td>
-                                                <button class="btn btn-primary btn-generate-token" data-id="{{ $user->id }}" data-nama="{{ $user->nama }}" data-token="{{ $user->token }}">
-                                                    <i class="fas fa-key"></i>
-                                                    <span>Generate Token</span>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </table>
-                            </div>
+                                @endforeach
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -61,24 +63,25 @@
         </div>
     </section>
 
-    {{-- Modal Generate Token --}}
-    <div aria-hidden="true" aria-labelledby="tokenModalLabel" class="modal fade" id="tokenModal" role="dialog" tabindex="-1">
+    {{-- Modal Lihat Token --}}
+    <div class="modal fade" id="modal-lihat-token" role="dialog" tabindex="-1">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="tokenModalLabel">Token for <span id="userName"></span></h5>
-                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h4>Lihat Token</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Token:</label>
-                        <input class="form-control" id="userToken" readonly type="text">
+                        <label for="lihat-nama">Nama</label>
+                        <input class="form-control" id="lihat-nama" readonly type="text">
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <div class="form-group">
+                        <label for="lihat-token">Token</label>
+                        <input class="form-control" id="lihat-token" readonly type="text">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" data-dismiss="modal" type="button">Tutup</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -100,42 +103,53 @@
     <script src="{{ asset("js/scripts.js") }}"></script>
     <script src="{{ asset("js/custom.js") }}"></script>
     {{-- Function Script --}}
+
     <script>
         $(document).ready(function() {
-            $('.btn-generate-token').on('click', function() {
-                let btn = $(this);
-                let userId = btn.data('id');
-                let userName = btn.data('nama');
-
-                // Show loading state
-                btn.prop('disabled', true);
-                btn.html('<i class="fas fa-spinner fa-spin"></i> Generating...');
-
-                $.ajax({
-                    url: `/token/generate/${userId}`,
-                    type: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            $('#userName').text(userName);
-                            $('#userToken').val(response.token);
-                            $('#tokenModal').modal('show');
-
-                            // Update button data attribute
-                            btn.data('token', response.token);
-                        } else {
-                            swal('Error', 'Failed to generate token', 'error');
-                        }
-                    },
-                    error: function() {
-                        swal('Error', 'Server error occurred', 'error');
-                    },
-                    complete: function() {
-                        // Reset button state
-                        btn.prop('disabled', false);
-                        btn.html('<i class="fas fa-key"></i> Generate Token');
+            $(".btn-lihat-token").click(function() {
+                let id = $(this).data("id");
+                let nama = $(this).data("nama");
+                let token = $(this).data("token");
+                $("#lihat-nama").val(nama);
+                $("#lihat-token").val(token);
+                $("#modal-lihat-token").modal("show");
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(".btn-generate-token").click(function() {
+                let id = $(this).data("id");
+                let nama = $(this).data("nama");
+                let url = "{{ url("maintenance/token") }}";
+                swal({
+                    title: "Generate Token",
+                    text: "Apakah Anda yakin ingin mengenerate token untuk " + nama + "?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willGenerate) => {
+                    if (willGenerate) {
+                        $.ajax({
+                            url: url,
+                            type: "POST",
+                            data: {
+                                user_id: id,
+                                _token: "{{ csrf_token() }}"
+                            },
+                            success: function(response) {
+                                swal("Token berhasil digenerate!", {
+                                    icon: "success",
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            },
+                            error: function(xhr) {
+                                swal("Terjadi kesalahan!", {
+                                    icon: "error",
+                                });
+                            }
+                        });
                     }
                 });
             });
