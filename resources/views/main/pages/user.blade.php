@@ -213,7 +213,7 @@
                 </form>
             </div>
         </div>
-        <!-- Delete Form -->
+        {{-- Delete Form --}}
         <form id="deleteForm" method="POST" style="display: none;">
             @csrf
         </form>

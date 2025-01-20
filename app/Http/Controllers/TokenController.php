@@ -36,8 +36,6 @@ class TokenController extends Controller
 
             DB::commit();
 
-            Log::info('Token baru berhasil digenerate untuk user ID: ' . $request->user_id . ' dengan token: ' . $newToken);
-
             return redirect()->back()->with('success', 'Token berhasil digenerate');
         } catch (ValidationException $e) {
             DB::rollBack();

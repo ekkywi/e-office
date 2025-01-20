@@ -30,32 +30,32 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-md text-center">
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama</th>
-                                    <th>Action</th>
-                                </tr>
-                                @foreach ($users as $index => $user)
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-md text-center">
                                     <tr>
-                                        <td>{{ $index + 1 }}</td>
-                                        <td>{{ $user->nama }}</td>
-                                        <td>
-                                            <button class= "btn btn-info btn-lihat-token" data-id="{{ $user->id }}" data-nama="{{ $user->nama }}" data-token="{{ $user->token }}">
-                                                <i class="fas fa-eye"></i>
-                                                <span>Lihat</span>
-                                            </button>
-                                            <button class="btn btn-primary btn-generate-token" data-id="{{ $user->id }}" data-nama="{{ $user->nama }}" data-token="{{ $user->token }}">
-                                                <i class="fas fa-key"></i>
-                                                <span>Generate</span>
-                                            </button>
-                                        </td>
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th>Action</th>
                                     </tr>
-                                @endforeach
-                            </table>
+                                    @foreach ($users as $index => $user)
+                                        <tr>
+                                            <td>{{ $index + 1 }}</td>
+                                            <td>{{ $user->nama }}</td>
+                                            <td>
+                                                <button class= "btn btn-info btn-lihat-token" data-id="{{ $user->id }}" data-nama="{{ $user->nama }}" data-token="{{ $user->token }}">
+                                                    <i class="fas fa-eye"></i>
+                                                    <span>Lihat</span>
+                                                </button>
+                                                <button class="btn btn-primary btn-generate-token" data-id="{{ $user->id }}" data-nama="{{ $user->nama }}" data-token="{{ $user->token }}">
+                                                    <i class="fas fa-key"></i>
+                                                    <span>Generate</span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -79,9 +79,10 @@
                         <label for="lihat-token">Token</label>
                         <input class="form-control" id="lihat-token" readonly type="text">
                     </div>
-                    <div class="form-group">
-                        <button class="btn btn-primary" data-dismiss="modal" type="button">Tutup</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button">Copy</button>
+                    <button class="btn btn-primary" data-dismiss="modal" type="button">Tutup</button>
                 </div>
             </div>
         </div>
@@ -105,6 +106,7 @@
     {{-- Function Script --}}
 
     <script>
+        // Lihat Token
         $(document).ready(function() {
             $(".btn-lihat-token").click(function() {
                 let id = $(this).data("id");
@@ -117,6 +119,7 @@
         });
     </script>
     <script>
+        // Generate Token
         $(document).ready(function() {
             $(".btn-generate-token").click(function() {
                 let id = $(this).data("id");
@@ -151,6 +154,23 @@
                             }
                         });
                     }
+                });
+            });
+        });
+    </script>
+    <script>
+        // Copy Token
+        $(document).ready(function() {
+            $(".modal-footer .btn-secondary").click(function() {
+                let token = $("#lihat-token").val();
+                navigator.clipboard.writeText(token).then(function() {
+                    swal("Token berhasil disalin!", {
+                        icon: "success",
+                    });
+                }, function(err) {
+                    swal("Gagal menyalin token!", {
+                        icon: "error",
+                    });
                 });
             });
         });
