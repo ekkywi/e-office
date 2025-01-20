@@ -19,22 +19,21 @@
     <div id="app">
         <div class="main-wrapper container">
             @include("main.components.navbar")
-
             <!-- Main Content -->
             <div class="main-content">
                 @yield("content")
             </div>
-            <footer class="main-footer">
-                <div class="footer-left">
-                    &copy; 2025 E-Office - All Rights Reserved
-                </div>
-                <div class="footer-right">
-
-                </div>
-            </footer>
         </div>
-    </div>
 
+        <footer class="main-footer">
+            &copy; 2025 E-Office - All Rights Reserved
+            <div class="footer-left">
+
+            </div>
+            <div class="footer-right">
+            </div>
+        </footer>
+    </div>
     @yield("script")
 </body>
 
