@@ -9,9 +9,9 @@
         <div class="section-header">
             <h1>Pengguna</h1>
             <div class="section-header-breadcrumb">
-                <div class="breadcrumb-item"><a href="{{ url("dashboard") }}">E-Office</a></div>
-                <div class="breadcrumb-item"><a href="{{ url("maintenance") }}">Maintenance</a></div>
-                <div class="breadcrumb-item active">Pengguna</div>
+                <div class="breadcrumb-item"><a href="{{ url("dashboard") }}"><i class="fas fa-rocket"></i> E-Office</a></div>
+                <div class="breadcrumb-item"><a href="{{ url("maintenance") }}"><i class="fas fa-wrench"></i> Maintenance</a></div>
+                <div class="breadcrumb-item active"><i class="fas fa-users"></i> Pengguna</div>
             </div>
         </div>
 
@@ -37,43 +37,88 @@
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
-                                <table class="table table-striped text-center table-md">
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Nama</th>
-                                        <th>Nomor Pegawai</th>
-                                        <th>Email</th>
-                                        <th>Divisi</th>
-                                        <th>Bagian</th>
-                                        <th>Jabatan</th>
-                                        <th colspan="2">Action</th>
-                                    </tr>
-                                    @foreach ($users as $index => $user)
+                                <table class="table table-border text-center table-hover">
+                                    <thead class="thead-light">
                                         <tr>
-                                            <td>{{ $index + 1 }}</td>
-                                            <td>{{ $user->nama }}</td>
-                                            <td>{{ $user->no_pegawai }}</td>
-                                            <td>{{ $user->email }}</td>
-                                            <td>{{ $user->divisi->nama_divisi ?? "-" }}</td>
-                                            <td>{{ $user->bagian->nama_bagian ?? "-" }}</td>
-                                            <td>{{ $user->jabatan->nama_jabatan ?? "-" }}</td>
-                                            <td>
-                                                <button class="btn btn-primary btn-edit-user" data-bagian_id="{{ $user->bagian_id }}" data-divisi_id="{{ $user->divisi_id }}" data-email="{{ $user->email }}" data-id="{{ $user->id }}" data-jabatan_id="{{ $user->jabatan_id }}" data-nama="{{ $user->nama }}" data-no_pegawai="{{ $user->no_pegawai }}" data-username="{{ $user->username }}">
-                                                    <i class="fas fa-edit"></i>
-                                                    <span>Edit</span>
-                                                </button>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-danger btn-delete-user" data-id="{{ $user->id }}" data-username="{{ $user->username }}">
-                                                    <i class="fas fa-trash"></i>
-                                                    <span>Hapus</span>
-                                                </button>
-                                            </td>
+                                            <th>No</th>
+                                            <th>Nama</th>
+                                            <th>Nomor Pegawai</th>
+                                            <th>Email</th>
+                                            <th>Divisi</th>
+                                            <th>Bagian</th>
+                                            <th>Jabatan</th>
+                                            <th colspan="2">Action</th>
                                         </tr>
-                                    @endforeach
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($users as $index => $user)
+                                            <tr>
+                                                <td>{{ $users->firstItem() + $index }}</td>
+                                                <td>{{ $user->nama }}</td>
+                                                <td>{{ $user->no_pegawai }}</td>
+                                                <td>{{ $user->email }}</td>
+                                                <td>{{ $user->divisi->nama_divisi ?? "-" }}</td>
+                                                <td>{{ $user->bagian->nama_bagian ?? "-" }}</td>
+                                                <td>{{ $user->jabatan->nama_jabatan ?? "-" }}</td>
+                                                <td>
+                                                    <button class="btn btn-primary btn-edit-user" data-bagian_id="{{ $user->bagian_id }}" data-divisi_id="{{ $user->divisi_id }}" data-email="{{ $user->email }}" data-id="{{ $user->id }}" data-jabatan_id="{{ $user->jabatan_id }}" data-nama="{{ $user->nama }}" data-no_pegawai="{{ $user->no_pegawai }}" data-username="{{ $user->username }}">
+                                                        <i class="fas fa-edit"></i>
+                                                        <span>Edit</span>
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-danger btn-delete-user" data-id="{{ $user->id }}" data-username="{{ $user->username }}">
+                                                        <i class="fas fa-trash"></i>
+                                                        <span>Hapus</span>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
+
+                        {{-- Pagination --}}
+                        <div class="card-body">
+                            <nav aria-label="...">
+                                <ul class="pagination justify-content-center">
+                                    {{-- Previous Page Link --}}
+                                    @if ($users->onFirstPage())
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1">Sebelumnya</a>
+                                        </li>
+                                    @else
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $users->previousPageUrl() }}" tabindex="-1">Sebelumnya</a>
+                                        </li>
+                                    @endif
+
+                                    {{-- Pagination Elements --}}
+                                    @foreach ($users->getUrlRange(1, $users->lastPage()) as $page => $url)
+                                        @if ($page == $users->currentPage())
+                                            <li class="page-item active">
+                                                <a class="page-link" href="#">{{ $page }} <span class="sr-only">(current)</span></a>
+                                            </li>
+                                        @else
+                                            <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
+                                        @endif
+                                    @endforeach
+
+                                    {{-- Next Page Link --}}
+                                    @if ($users->hasMorePages())
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $users->nextPageUrl() }}">Selanjutnya</a>
+                                        </li>
+                                    @else
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#">Selanjutnya</a>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </nav>
+                        </div>
+
                     </div>
                 </div>
             </div>

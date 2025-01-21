@@ -14,7 +14,7 @@ class BagianController extends Controller
 {
     public function bagian()
     {
-        $bagians = Bagian::all();
+        $bagians = Bagian::paginate(10);
         return view('main.pages.bagian', compact('bagians'));
     }
 

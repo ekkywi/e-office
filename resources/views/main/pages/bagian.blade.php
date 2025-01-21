@@ -9,9 +9,9 @@
         <div class="section-header">
             <h1>Bagian</h1>
             <div class="section-header-breadcrumb">
-                <div class="breadcrumb-item"><a href="{{ url("dashboard") }}">E-Office</a></div>
-                <div class="breadcrumb-item"><a href="{{ url("maintenance") }}">Maintenance</a></div>
-                <div class="breadcrumb-item active">Bagian</div>
+                <div class="breadcrumb-item"><a href="{{ url("dashboard") }}"><i class="fas fa-rocket"></i> E-Office</a></div>
+                <div class="breadcrumb-item"><a href="{{ url("maintenance") }}"><i class="fas fa-wrench"></i> Maintenance</a></div>
+                <div class="breadcrumb-item active"><i class="fa fa-building"></i> Bagian</div>
             </div>
         </div>
 
@@ -37,30 +37,75 @@
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
-                                <table class="table table-striped text-center">
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Nama Bagian</th>
-                                        <th>Kelola</th>
-                                    </tr>
-                                    @foreach ($bagians as $index => $bagian)
+                                <table class="table table-border text-center table-hover">
+                                    <thead class="thead-light">
                                         <tr>
-                                            <td>{{ $index + 1 }}</td>
-                                            <td>{{ $bagian->nama_bagian }}</td>
-                                            <td>
-                                                <button class="btn btn-primary btn-edit-bagian" data-id="{{ $bagian->id }}" data-name="{{ $bagian->nama_bagian }}" data-target="#editBagianModal" data-toggle="modal">
-                                                    <i class="fas fa-edit"></i>
-                                                    <span>Edit</span>
-                                                </button>
-                                                <button class="btn btn-danger btn-delete-bagian" data-id="{{ $bagian->id }}" data-name="{{ $bagian->nama_bagian }}">
-                                                    <i class="fas fa-trash"></i>
-                                                    <span>Hapus</span>
-                                                </button>
+                                            <th>No</th>
+                                            <th>Nama Bagian</th>
+                                            <th>Kelola</th>
                                         </tr>
-                                    @endforeach
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($bagians as $index => $bagian)
+                                            <tr>
+                                                <td>{{ $bagians->firstItem() + $index }}</td>
+                                                <td>{{ $bagian->nama_bagian }}</td>
+                                                <td>
+                                                    <button class="btn btn-primary btn-edit-bagian" data-id="{{ $bagian->id }}" data-name="{{ $bagian->nama_bagian }}" data-target="#editBagianModal" data-toggle="modal">
+                                                        <i class="fas fa-edit"></i>
+                                                        <span>Edit</span>
+                                                    </button>
+                                                    <button class="btn btn-danger btn-delete-bagian" data-id="{{ $bagian->id }}" data-name="{{ $bagian->nama_bagian }}">
+                                                        <i class="fas fa-trash"></i>
+                                                        <span>Hapus</span>
+                                                    </button>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
+
+                        {{-- Pagination --}}
+                        <div class="card-body">
+                            <nav aria-label="...">
+                                <ul class="pagination justify-content-center">
+                                    {{-- Previous Page Link --}}
+                                    @if ($bagians->onFirstPage())
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#" tabindex="-1">Sebelumnya</a>
+                                        </li>
+                                    @else
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $bagians->previousPageUrl() }}" tabindex="-1">Sebelumnya</a>
+                                        </li>
+                                    @endif
+
+                                    {{-- Pagination Elements --}}
+                                    @foreach ($bagians->getUrlRange(1, $bagians->lastPage()) as $page => $url)
+                                        @if ($page == $bagians->currentPage())
+                                            <li class="page-item active">
+                                                <a class="page-link" href="#">{{ $page }} <span class="sr-only">(current)</span></a>
+                                            </li>
+                                        @else
+                                            <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
+                                        @endif
+                                    @endforeach
+
+                                    {{-- Next Page Link --}}
+                                    @if ($bagians->hasMorePages())
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ $bagians->nextPageUrl() }}">Selanjutnya</a>
+                                        </li>
+                                    @else
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#">Selanjutnya</a>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </nav>
+                        </div>
+
                     </div>
                 </div>
             </div>

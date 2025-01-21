@@ -18,7 +18,7 @@ class UserController extends Controller
 {
     public function user()
     {
-        $users = User::all();
+        $users = User::paginate(10);
         $divisis = Divisi::all();
         $bagians = Bagian::all();
         $jabatans = Jabatan::all();
@@ -38,6 +38,11 @@ class UserController extends Controller
                 'divisi_id' => 'required|exists:divisi,id',
                 'bagian_id' => 'required|exists:bagian,id',
                 'jabatan_id' => 'required|exists:jabatan,id'
+            ], [
+                'username.unique' => 'Username sudah digunakan',
+                'password.min' => 'Password minimal 8 karakter',
+                'no_pegawai.unique' => 'Nomor pegawai sudah digunakan',
+                'email.unique' => 'Email sudah digunakan',
             ]);
 
             DB::beginTransaction();

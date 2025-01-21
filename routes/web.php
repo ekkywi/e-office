@@ -9,6 +9,7 @@ use App\Http\Controllers\BagianController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TokenController;
+use App\Http\Controllers\AktivasiController;
 use Doctrine\Common\Lexer\Token;
 
 /*
@@ -83,4 +84,8 @@ Route::prefix('maintenance')->name('maintenance.')->middleware('auth')->group(fu
     // Route Token
     Route::get('/token', [TokenController::class, 'tokenIndex'])->name('token.index');
     Route::post('/token', [TokenController::class, 'generateToken'])->name('token.generate');
+
+    // Route Aktivasi
+    Route::get('/aktivasi', [AktivasiController::class, 'aktivasi'])->name('aktivasi');
+    Route::post('/aktivasi', [AktivasiController::class, 'aktivasiUser'])->name('aktivasi.user');
 });

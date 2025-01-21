@@ -14,7 +14,7 @@ class TokenController extends Controller
 {
     public function tokenIndex()
     {
-        $users = User::all();
+        $users = User::paginate(10);
         return view('main.pages.token', compact('users'));
     }
 

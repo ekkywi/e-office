@@ -4,7 +4,7 @@
 
 <div class="navbar-bg"></div>
 <nav class="navbar navbar-expand-lg main-navbar sticky-top">
-    <a class="navbar-brand sidebar-gone-hide" href="dashboard">E-Office</a>
+    <a class="navbar-brand sidebar-gone-hide" href="{{ url("dashboard") }}">E-Office</a>
     <a class="nav-link sidebar-gone-show" data-toggle="sidebar" href="#"><i class="fas fa-bars"></i></a>
     <div class="nav-collapse">
         <a class="sidebar-gone-show nav-collapse-toggle nav-link" href="#">
@@ -87,9 +87,9 @@
             <ul class="navbar-nav">
                 <li class="nav-item {{ Request::is("dashboard") ? "active" : "" }}"><a class="nav-link" href="{{ url("dashboard") }}"><i class="fa fa-rocket"></i><span>Dashboard</span></a></li>
                 <li class="nav-item {{ Request::is("aplikasi") ? "active" : "" }}"><a class="nav-link" href="{{ url("aplikasi") }}"><i class="fa fa-fire-flame-curved"></i><span>Aplikasi</span></a></li>
-                <li class="nav-item {{ Request::is("pengaturan") ? "active" : "" }}"><a class="nav-link" href="{{ url("pengaturan") }}"><i class="fa fa-cog"></i><span>Pengaturan</span></a></li>
-                <li class="nav-item {{ Request::is("bantuan") ? "active" : "" }}"><a class="nav-link" href="{{ url("bantuan") }}"><i class="fa fa-circle-question"></i><span>Bantuan</span></a></li>
-                <li class="nav-item {{ Request::is("maintenance") ? "active" : "" }}"><a class="nav-link" href="{{ url("maintenance") }}"><i class="fa fa-wrench"></i><span>Maintenance</span></a></li>
+                <li class="nav-item {{ Request::is("pengaturan") || Request::is("pengaturan/*") ? "active" : "" }}"><a class="nav-link" href="{{ url("pengaturan") }}"><i class="fa fa-cog"></i><span>Pengaturan</span></a></li>
+                <li class="nav-item {{ Request::is("bantuan") || Request::is("bantuan/*") ? "active" : "" }}"><a class="nav-link" href="{{ url("bantuan") }}"><i class="fa fa-circle-question"></i><span>Bantuan</span></a></li>
+                <li class="nav-item {{ Request::is("maintenance") || Request::is("maintenance/*") ? "active" : "" }}"><a class="nav-link" href="{{ url("maintenance") }}"><i class="fa fa-wrench"></i><span>Maintenance</span></a></li>
             </ul>
         </div>
     </nav>

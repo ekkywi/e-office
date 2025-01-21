@@ -1,15 +1,17 @@
 @extends("main.layouts.main")
+
 @section("title")
-    Token {!! "&mdash;" !!} E-Office
+    Aktivasi Akun {!! "&mdash;" !!} E-Office
 @endsection
+
 @section("content")
     <section class="section">
         <div class="section-header">
-            <h1>Token</h1>
+            <h1>Aktivasi Akun</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item"><a href="{{ url("dashboard") }}"><i class="fas fa-rocket"></i> E-Office</a></div>
                 <div class="breadcrumb-item"><a href="{{ url("maintenance") }}"><i class="fas fa-wrench"></i> Maintenance</a></div>
-                <div class="breadcrumb-item active"><i class="fas fa-key"></i> Token</div>
+                <div class="breadcrumb-item"><i class="fas fa-user-check"></i> Aktivasi Akun</div>
             </div>
         </div>
 
@@ -18,7 +20,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Data Token</h4>
+                            <h4>Aktivasi Pengguna</h4>
                             <div class="card-header-form">
                                 <form>
                                     <div class="input-group">
@@ -29,6 +31,9 @@
                                     </div>
                                 </form>
                             </div>
+                            <div>
+                                <button class="btn btn-primary ml-2" data-target="#addUserModal" data-toggle="modal">Tambah Data</button>
+                            </div>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
@@ -37,6 +42,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Nama</th>
+                                            <th>Status Aktivasi</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -46,14 +52,19 @@
                                                 <td>{{ $users->firstItem() + $index }}</td>
                                                 <td>{{ $user->nama }}</td>
                                                 <td>
-                                                    <button class= "btn btn-info btn-lihat-token" data-id="{{ $user->id }}" data-nama="{{ $user->nama }}" data-token="{{ $user->token }}">
-                                                        <i class="fas fa-eye"></i>
-                                                        <span>Lihat</span>
-                                                    </button>
-                                                    <button class="btn btn-primary btn-generate-token" data-id="{{ $user->id }}" data-nama="{{ $user->nama }}" data-token="{{ $user->token }}">
-                                                        <i class="fas fa-key"></i>
-                                                        <span>Generate</span>
-                                                    </button>
+                                                    <span class="{{ $user->status_aktivasi ? "text-success" : "text-danger" }}">
+                                                        {{ $user->status_aktivasi ? "Aktif" : "Non-Aktif" }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    @if (!$user->is_active)
+                                                        <button class="btn btn-{{ $user->status_aktivasi ? "danger" : "success" }} btn-aktivasi" data-id="{{ $user->id }}">
+                                                            <i class="fas fa-{{ $user->status_aktivasi ? "times" : "check" }}"></i>
+                                                            <span>{{ $user->status_aktivasi ? "Non-Aktifkan" : "Aktivasi" }}</span>
+                                                        </button>
+                                                    @else
+                                                        <span class="badge badge-success">Aktif</span>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -62,7 +73,6 @@
                             </div>
                         </div>
 
-                        {{-- Pagination --}}
                         <div class="card-body">
                             <nav aria-label="...">
                                 <ul class="pagination justify-content-center">
@@ -107,31 +117,6 @@
             </div>
         </div>
     </section>
-
-    {{-- Modal Lihat Token --}}
-    <div class="modal fade" id="modal-lihat-token" role="dialog" tabindex="-1">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4>Lihat Token</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="lihat-nama">Nama</label>
-                        <input class="form-control" id="lihat-nama" readonly type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="lihat-token">Token</label>
-                        <input class="form-control" id="lihat-token" readonly type="text">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button">Copy</button>
-                    <button class="btn btn-primary" data-dismiss="modal" type="button">Tutup</button>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section("script")
@@ -143,79 +128,40 @@
     <script src="{{ asset("modules/nicescroll/jquery.nicescroll.min.js") }}"></script>
     <script src="{{ asset("modules/moment/moment.min.js") }}"></script>
     <script src="{{ asset("js/stisla.js") }}"></script>
+
     {{-- JavaScript Libraries --}}
     <script src="{{ asset("modules/sweetalert/sweetalert.min.js") }}"></script>
+
     {{-- Template JavaScript Script --}}
     <script src="{{ asset("js/scripts.js") }}"></script>
     <script src="{{ asset("js/custom.js") }}"></script>
-    {{-- Function Script --}}
 
+    {{-- Function Script --}}
     <script>
-        // Lihat Token
         $(document).ready(function() {
-            $(".btn-lihat-token").click(function() {
-                let id = $(this).data("id");
-                let nama = $(this).data("nama");
-                let token = $(this).data("token");
-                $("#lihat-nama").val(nama);
-                $("#lihat-token").val(token);
-                $("#modal-lihat-token").modal("show");
-            });
-        });
-    </script>
-    <script>
-        // Generate Token
-        $(document).ready(function() {
-            $(".btn-generate-token").click(function() {
-                let id = $(this).data("id");
-                let nama = $(this).data("nama");
-                let url = "{{ url("maintenance/token") }}";
-                swal({
-                    title: "Generate Token",
-                    text: "Apakah Anda yakin ingin mengenerate token untuk " + nama + "?",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                }).then((willGenerate) => {
-                    if (willGenerate) {
-                        $.ajax({
-                            url: url,
-                            type: "POST",
-                            data: {
-                                user_id: id,
-                                _token: "{{ csrf_token() }}"
-                            },
-                            success: function(response) {
-                                swal("Token berhasil digenerate!", {
-                                    icon: "success",
-                                }).then(() => {
-                                    location.reload();
-                                });
-                            },
-                            error: function(xhr) {
-                                swal("Terjadi kesalahan!", {
-                                    icon: "error",
-                                });
-                            }
-                        });
+            $(".btn-aktivasi").click(function() {
+                let userId = $(this).data("id");
+                let url = "{{ route("maintenance.aktivasi.user") }}"; // Pastikan route name sesuai
+
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: {
+                        user_id: userId,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            swal("Berhasil!", response.success, "success").then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            swal("Gagal!", response.error, "error");
+                        }
+                    },
+                    error: function(xhr) {
+                        swal("Gagal!", "Terjadi kesalahan saat mengaktivasi user", "error");
                     }
-                });
-            });
-        });
-    </script>
-    <script>
-        // Copy Token
-        $(document).ready(function() {
-            $(".modal-footer .btn-secondary").click(function() {
-                let token = $("#lihat-token").val();
-                navigator.clipboard.writeText(token).then(function() {
-                    swal("Token berhasil disalin!", {
-                        icon: "success",
-                    });
-                }, function(err) {
-                    swal("Gagal menyalin token!", {
-                        icon: "error",
-                    });
                 });
             });
         });

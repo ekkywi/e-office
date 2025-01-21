@@ -15,7 +15,7 @@ class JabatanController extends Controller
 {
     public function jabatan()
     {
-        $jabatans = Jabatan::all();
+        $jabatans = Jabatan::paginate(10);
         return view('main.pages.jabatan', compact('jabatans'));
     }
 
