@@ -10,6 +10,7 @@ use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\AktivasiController;
+use App\Http\Controllers\AsetController;
 use Doctrine\Common\Lexer\Token;
 
 /*
@@ -88,4 +89,10 @@ Route::prefix('maintenance')->name('maintenance.')->middleware('auth')->group(fu
     // Route Aktivasi
     Route::get('/aktivasi', [AktivasiController::class, 'aktivasi'])->name('aktivasi');
     Route::post('/aktivasi', [AktivasiController::class, 'aktivasiUser'])->name('aktivasi.user');
+});
+
+
+// Route Aplikasi IT Asset Management
+Route::prefix('itam')->name('itam.')->middleware('auth')->group(function () {
+    Route::get('/dashboard', [AsetController::class, 'dashboard'])->name('dashboard');
 });

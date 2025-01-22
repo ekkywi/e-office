@@ -27,9 +27,9 @@
 
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="card card-menu">
-                        <a class="card-body text-center" href="#">
+                        <a class="card-body text-center" href="{{ url("itam/dashboard") }}">
                             <i class="fas fa-laptop custom-icon-size mb-1"></i>
-                            <h5 class="card-title">Manajemen Aset Teknologi Informasi</h5>
+                            <h5 class="card-title">IT Asset Management</h5>
                         </a>
                     </div>
                 </div>

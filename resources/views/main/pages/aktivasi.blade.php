@@ -141,7 +141,7 @@
         $(document).ready(function() {
             $(".btn-aktivasi").click(function() {
                 let userId = $(this).data("id");
-                let url = "{{ route("maintenance.aktivasi.user") }}"; // Pastikan route name sesuai
+                let url = "{{ route("maintenance.aktivasi.user") }}";
 
                 $.ajax({
                     url: url,
