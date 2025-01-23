@@ -15,7 +15,7 @@
                 <a class="nav-link" href="{{ url("itam/dashboard") }}"><i class="fas fa-rocket"></i><span>Dashboard</span></a>
             </li>
 
-            <li class="menu-header">Aset Hardware</li>
+            <li class="menu-header">Data Aset</li>
 
             {{-- Menu Aset --}}
             <li class="dropdown {{ Request::is("itam/aset/*") ? "active" : "" }}">
@@ -30,10 +30,11 @@
                     <li class="{{ Request::is("itam/aset/dimusnahkan") ? "active" : "" }}"><a class="nav-link" href="#">Dimusnahkan</a></li>
                 </ul>
             </li>
+            <li class="menu-header">Aset Fisik</li>
 
             {{-- Menu Hardware --}}
             <li class="dropdown {{ Request::is("itam/hardware/*") ? "active" : "" }}">
-                <a class="nav-link has-dropdown" data-toggle="dropdown" href="#"><i class="fa fa-boxes-stacked"></i> <span>Hardware</span></a>
+                <a class="nav-link has-dropdown" data-toggle="dropdown" href="#"><i class="fas fa-boxes-stacked"></i> <span>Hardware</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{ Request::is("itam/hardware/komputer") ? "active" : "" }}"><a class="nav-link" href="#">Komputer</a></li>
                     <li class="{{ Request::is("itam/hardware/laptop") ? "active" : "" }}"><a class="nav-link" href="#">Laptop</a></li>
@@ -44,10 +45,34 @@
                 </ul>
             </li>
 
+            {{-- Menu Komponen --}}
+            <li class="dropdown {{ Request::is("itam/komponen/*") ? "active" : "" }} ">
+                <a class="nav-link has-dropdown" data-toggle="dropdown" href="#"><i class="fas fa-cogs"></i> <span>Komponen</span></a>
+                <ul class="dropdown-menu">
+                    <li class="{{ Request::is("itam/komponen/processor") ? "active" : "" }}"><a class="nav-link" href="#">Processor</a></li>
+                    <li class="{{ Request::is("itam/komponen/ram") ? "active" : "" }}"><a class="nav-link" href="#">RAM</a></li>
+                    <li class="{{ Request::is("itam/komponen/hardisk") ? "active" : "" }}"><a class="nav-link" href="#">Hardisk</a></li>
+                    <li class="{{ Request::is("itam/komponen/ssd") ? "active" : "" }}"><a class="nav-link" href="#">SSD</a></li>
+                    <li class="{{ Request::is("itam/komponen/vga") ? "active" : "" }}"><a class="nav-link" href="#">VGA</a></li>
+                </ul>
+            </li>
+
+            {{-- Menu Akseoris --}}
+            <li {{ Request::is("itam/aksesoris/*") ? "active" : "" }} class="dropdown">
+                <a class="nav-link has-dropdown" data-toggle="dropdown" href="#"><i class="fas fa-keyboard"></i> <span>Aksesoris</span></a>
+                <ul class="dropdown-menu">
+                    <li class="{{ Request::is("itam/aksesoris/keyboard") ? "active" : "" }}"><a class="nav-link" href="#">Keyboard</a></li>
+                    <li class="{{ Request::is("itam/aksesoris/mouse") ? "active" : "" }}"><a class="nav-link" href="#">Mouse</a></li>
+                    <li class="{{ Request::is("itam/aksesoris/speaker") ? "active" : "" }}"><a class="nav-link" href="#">Speaker</a></li>
+                    <li class="{{ Request::is("itam/aksesoris/webcam") ? "active" : "" }}"><a class="nav-link" href="#">Webcam</a></li>
+                </ul>
+            </li>
+
+            <li class="menu-header">Aset Digital</li>
+
             {{-- Menu Lisensi --}}
-            <li class="menu-header">Lisensi</li>
             <li class="dropdown {{ Request::is("itam/lisensi/*") ? "active" : "" }}">
-                <a class="nav-link has-dropdown" data-toggle="dropdown" href="#"><i class="fas fa-key"></i> <span>Data Lisensi</span></a>
+                <a class="nav-link has-dropdown" data-toggle="dropdown" href="#"><i class="fas fa-key"></i> <span>Lisensi</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{ Request::is("itam/lisensi/semua-lisensi") ? "active" : "" }}"><a class="nav-link" href="#">Semua Lisensi</a></li>
                     <li class="{{ Request::is("itam/lisensi/sistem-operasi") ? "active" : "" }}"><a class="nav-link" href="#">Sistem Operasi</a></li>
