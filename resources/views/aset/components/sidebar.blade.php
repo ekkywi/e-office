@@ -17,7 +17,7 @@
 
             <li class="menu-header">Data Aset</li>
 
-            {{-- Menu Aset --}}
+            {{-- Menu Data Aset --}}
             <li class="dropdown {{ Request::is("itam/aset/*") ? "active" : "" }}">
                 <a class="nav-link has-dropdown" data-toggle="dropdown" href="#"><i class="fas fa-cube"></i> <span>Data Aset</span></a>
                 <ul class="dropdown-menu">
@@ -30,6 +30,17 @@
                     <li class="{{ Request::is("itam/aset/dimusnahkan") ? "active" : "" }}"><a class="nav-link" href="#">Dimusnahkan</a></li>
                 </ul>
             </li>
+
+            {{-- Menu Penomoran --}}
+            <li class="dropdown {{ Request::is("itam/penomoran/*") ? "active" : "" }}">
+                <a class="nav-link has-dropdown" data-toggle="dropdown" href="#"><i class="fas fa-list-ol"></i> <span>Penomoran</span></a>
+                <ul class="dropdown-menu">
+                    <li class="{{ Request::is("itam/penomoran/nomor-inv") ? "active" : "" }}"><a class="nav-link" href="#">Nomor INV</a></li>
+                    <li class="{{ Request::is("itam/penomoran/nomor-sip") ? "active" : "" }}"><a class="nav-link" href="#">Nomor SIP</a></li>
+                    <li class="{{ Request::is("itam/penomoran/nomor-aset") ? "active" : "" }}"><a class="nav-link" href="#">Nomor Aset</a></li>
+                </ul>
+            </li>
+
             <li class="menu-header">Aset Fisik</li>
 
             {{-- Menu Hardware --}}
