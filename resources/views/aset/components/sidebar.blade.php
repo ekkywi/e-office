@@ -12,7 +12,7 @@
 
             {{-- Menu Dashboard --}}
             <li class="dropdown {{ Request::is("itam/dashboard") ? "active" : "" }}">
-                <a class="nav-link" href="{{ url("itam/dashboard") }}"><i class="fas fa-rocket"></i><span>Dashboard</span></a>
+                <a class="nav-link" href="{{ url("itam/dashboard") }}"><i class="fas fa-fire"></i><span>Dashboard</span></a>
             </li>
 
             <li class="menu-header">Data Aset</li>
@@ -88,6 +88,31 @@
                     <li class="{{ Request::is("itam/lisensi/semua-lisensi") ? "active" : "" }}"><a class="nav-link" href="#">Semua Lisensi</a></li>
                     <li class="{{ Request::is("itam/lisensi/sistem-operasi") ? "active" : "" }}"><a class="nav-link" href="#">Sistem Operasi</a></li>
                     <li class="{{ Request::is("itam/lisensi/aplikasi") ? "active" : "" }}"><a class="nav-link" href="#">Aplikasi</a></li>
+                </ul>
+            </li>
+
+            <li class="menu-header">Pengaturan</li>
+
+            {{-- Menu Pengaturan --}}
+            <li class="dropdowon {{ Request::is("itam/pengaturan/*") ? "active" : "" }}">
+                <a class ="nav-link has-dropdown" data-toggle="dropdown" href="#"><i class="fas fa-cog"></i> <span>Pengaturan</span></a>
+                <ul class="dropdown-menu">
+                    <li class="{{ Request::is("itam/pengaturan/status-aset") }}"><a class="nav-link" href="#">Status Aset</a></li>
+                    <li class="{{ Request::is("item/pengaturan/kategori-aset") }}"><a class="nav-link" href="#">Kategori Aset</a></li>
+                    <li class="{{ Request::is("item/pengaturan/model-aset") }}"><a class="nav-link" href="#">Model Aset</a></li>
+                    <li class="{{ Request::is("item/pengaturan/merk-aset") }}"><a class="nav-link" href="#">Merk Aset</a></li>
+                    <li class="{{ Request::is("item/pengatura/supplier-aset") }}"><a class="nav-link" href="#">Supplier Aset</a></li>
+                </ul>
+            </li>
+
+            <li class="menu-header">Laporan</li>
+
+            {{-- Menu Laporan --}}
+            <li class="dropdown {{ Request::is("itam/laporan/*") ? "active" : "" }}">
+                <a class='nav-link has-dropdown' data-toggle="dropdown" href="#"><i class="fas fa-file"></i> <span>Log</span></a>
+                <ul class="dropdown-menu">
+                    <li class="{{ Request::is("itam/laporan/log-aset") ? "active" : "" }}"><a class="nav-link" href="#">Log Aset</a></li>
+
                 </ul>
             </li>
 
