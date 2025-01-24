@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Doctrine\Common\Lexer\Token;
+
+// Main Controller
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DivisiController;
@@ -10,8 +13,11 @@ use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TokenController;
 use App\Http\Controllers\AktivasiController;
-use App\Http\Controllers\AsetController;
-use Doctrine\Common\Lexer\Token;
+
+//Aset Controller
+use App\Http\Controllers\Aset\AsetController;
+use App\Http\Controllers\Aset\StatusAsetController;
+use App\Http\Controllers\Aset\KategoriAsetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,4 +101,10 @@ Route::prefix('maintenance')->name('maintenance.')->middleware('auth')->group(fu
 // Route Aplikasi IT Asset Management
 Route::prefix('itam')->name('itam.')->middleware('auth')->group(function () {
     Route::get('/dashboard', [AsetController::class, 'dashboard'])->name('dashboard');
+
+    // Route Aplikasi IT Asset Management - Pengaturan
+    Route::prefix('pengaturan')->name('pengaturan.')->group(function () {
+        Route::get('/status-aset', [StatusAsetController::class, 'statusAset'])->name('status-aset');
+        Route::get('/kategori-aset', [KategoriAsetController::class, 'kategoriAset'])->name('kategori-aset');
+    });
 });
