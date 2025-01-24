@@ -70,6 +70,7 @@
                     <li class="{{ Request::is("itam/komponen/hardisk") ? "active" : "" }}"><a class="nav-link" href="#">Hardisk</a></li>
                     <li class="{{ Request::is("itam/komponen/ssd") ? "active" : "" }}"><a class="nav-link" href="#">SSD</a></li>
                     <li class="{{ Request::is("itam/komponen/vga") ? "active" : "" }}"><a class="nav-link" href="#">VGA</a></li>
+                    <li class="{{ Request::is("itam/komponen/powersupply") ? "active" : "" }}"><a class="nav-link" href="#">Power Supply</a></li>
                 </ul>
             </li>
 
@@ -103,10 +104,10 @@
                 <a class ="nav-link has-dropdown" data-toggle="dropdown" href="#"><i class="fas fa-cog"></i> <span>Pengaturan</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{ Request::is("itam/pengaturan/status-aset") ? "active" : "" }}"><a class="nav-link" href="{{ url("itam/pengaturan/status-aset") }}">Status Aset</a></li>
-                    <li class="{{ Request::is("item/pengaturan/kategori-aset") ? "active" : "" }}"><a class="nav-link" href="{{ url("item/pengaturan/kategori-aset") }}">Kategori Aset</a></li>
-                    <li class="{{ Request::is("item/pengaturan/model-aset") ? "active" : "" }}"><a class="nav-link" href="#">Model Aset</a></li>
-                    <li class="{{ Request::is("item/pengaturan/merk-aset") ? "active" : "" }}"><a class="nav-link" href="#">Merk Aset</a></li>
-                    <li class="{{ Request::is("item/pengatura/supplier-aset") ? "active" : "" }}"><a class="nav-link" href="#">Supplier Aset</a></li>
+                    <li class="{{ Request::is("itam/pengaturan/kategori-aset") ? "active" : "" }}"><a class="nav-link" href="{{ url("itam/pengaturan/kategori-aset") }}">Kategori Aset</a></li>
+                    <li class="{{ Request::is("itam/pengaturan/model-aset") ? "active" : "" }}"><a class="nav-link" href="#">Model Aset</a></li>
+                    <li class="{{ Request::is("itam/pengaturan/merk-aset") ? "active" : "" }}"><a class="nav-link" href="#">Merk Aset</a></li>
+                    <li class="{{ Request::is("itam/pengatura/supplier-aset") ? "active" : "" }}"><a class="nav-link" href="#">Supplier Aset</a></li>
                 </ul>
             </li>
 
