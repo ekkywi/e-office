@@ -105,7 +105,7 @@
                 <ul class="dropdown-menu">
                     <li class="{{ Request::is("itam/pengaturan/status-aset") ? "active" : "" }}"><a class="nav-link" href="{{ url("itam/pengaturan/status-aset") }}">Status Aset</a></li>
                     <li class="{{ Request::is("itam/pengaturan/kategori-aset") ? "active" : "" }}"><a class="nav-link" href="{{ url("itam/pengaturan/kategori-aset") }}">Kategori Aset</a></li>
-                    <li class="{{ Request::is("itam/pengaturan/model-aset") ? "active" : "" }}"><a class="nav-link" href="#">Model Aset</a></li>
+                    <li class="{{ Request::is("itam/pengaturan/model-aset") ? "active" : "" }}"><a class="nav-link" href="{{ url("itam/pengaturan/model-aset") }}">Model Aset</a></li>
                     <li class="{{ Request::is("itam/pengaturan/merk-aset") ? "active" : "" }}"><a class="nav-link" href="#">Merk Aset</a></li>
                     <li class="{{ Request::is("itam/pengatura/supplier-aset") ? "active" : "" }}"><a class="nav-link" href="#">Supplier Aset</a></li>
                 </ul>

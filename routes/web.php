@@ -18,6 +18,7 @@ use App\Http\Controllers\AktivasiController;
 use App\Http\Controllers\Aset\AsetController;
 use App\Http\Controllers\Aset\StatusAsetController;
 use App\Http\Controllers\Aset\KategoriAsetController;
+use App\Http\Controllers\Aset\ModelAsetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -104,5 +105,6 @@ Route::prefix('itam')->name('itam.')->middleware('auth')->group(function () {
     Route::prefix('pengaturan')->name('pengaturan.')->group(function () {
         Route::get('/status-aset', [StatusAsetController::class, 'statusAset'])->name('status-aset');
         Route::get('/kategori-aset', [KategoriAsetController::class, 'kategoriAset'])->name('kategori-aset');
+        Route::get('/model-aset', [ModelAsetController::class, 'modelAset'])->name('model-aset');
     });
 });
