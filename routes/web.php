@@ -51,7 +51,6 @@ Route::prefix('auth')->name('auth.')->middleware('guest')->group(function () {
     Route::post('/activate', [AuthController::class, 'activateUser'])->name('activate.user');
 });
 
-
 // Controller Halaman Dashboard-Menu
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -96,7 +95,6 @@ Route::prefix('maintenance')->name('maintenance.')->middleware('auth')->group(fu
     Route::get('/aktivasi', [AktivasiController::class, 'aktivasi'])->name('aktivasi');
     Route::post('/aktivasi', [AktivasiController::class, 'aktivasiUser'])->name('aktivasi.user');
 });
-
 
 // Route Aplikasi IT Asset Management
 Route::prefix('itam')->name('itam.')->middleware('auth')->group(function () {
