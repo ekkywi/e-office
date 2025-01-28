@@ -31,26 +31,9 @@
                 </ul>
             </li>
 
-            {{-- Menu Penomoran --}}
-            <li class="dropdown {{ Request::is("itam/penomoran/*") ? "active" : "" }}">
-                <a class="nav-link has-dropdown" data-toggle="dropdown" href="#"><i class="fas fa-list-ol"></i> <span>Penomoran</span></a>
-                <ul class="dropdown-menu">
-                    <li class="{{ Request::is("itam/penomoran/nomor-inv") ? "active" : "" }}"><a class="nav-link" href="#">Nomor INV</a></li>
-                    <li class="{{ Request::is("itam/penomoran/nomor-sip") ? "active" : "" }}"><a class="nav-link" href="#">Nomor SIP</a></li>
-                    <li class="{{ Request::is("itam/penomoran/nomor-aset") ? "active" : "" }}"><a class="nav-link" href="#">Nomor Aset</a></li>
-                </ul>
-            </li>
-
-            {{-- Menu Stok Aset
-            <li class="{{ Request::is("itam/stok-aset") ? "active" : "" }}">
-                <a class="nav-link" href="#"><i class="fas fa-box-open"></i> <span>Stok Aset</span></a>
-            </li> --}}
-
-            <li class="menu-header">Aset Fisik</li>
-
             {{-- Menu Hardware --}}
             <li class="dropdown {{ Request::is("itam/hardware/*") ? "active" : "" }}">
-                <a class="nav-link has-dropdown" data-toggle="dropdown" href="#"><i class="fas fa-boxes-stacked"></i> <span>Hardware</span></a>
+                <a class="nav-link has-dropdown" data-toggle="dropdown" href="#"><i class="fas fa-computer"></i> <span>Hardware</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{ Request::is("itam/hardware/komputer") ? "active" : "" }}"><a class="nav-link" href="#">Komputer</a></li>
                     <li class="{{ Request::is("itam/hardware/laptop") ? "active" : "" }}"><a class="nav-link" href="#">Laptop</a></li>
@@ -63,7 +46,7 @@
 
             {{-- Menu Komponen --}}
             <li class="dropdown {{ Request::is("itam/komponen/*") ? "active" : "" }} ">
-                <a class="nav-link has-dropdown" data-toggle="dropdown" href="#"><i class="fas fa-cogs"></i> <span>Komponen</span></a>
+                <a class="nav-link has-dropdown" data-toggle="dropdown" href="#"><i class="fas fa-memory"></i> <span>Komponen</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{ Request::is("itam/komponen/processor") ? "active" : "" }}"><a class="nav-link" href="#">Processor</a></li>
                     <li class="{{ Request::is("itam/komponen/ram") ? "active" : "" }}"><a class="nav-link" href="#">RAM</a></li>
@@ -85,8 +68,6 @@
                 </ul>
             </li>
 
-            <li class="menu-header">Aset Digital</li>
-
             {{-- Menu Lisensi --}}
             <li class="dropdown {{ Request::is("itam/lisensi/*") ? "active" : "" }}">
                 <a class="nav-link has-dropdown" data-toggle="dropdown" href="#"><i class="fas fa-key"></i> <span>Lisensi</span></a>
@@ -94,6 +75,23 @@
                     <li class="{{ Request::is("itam/lisensi/semua-lisensi") ? "active" : "" }}"><a class="nav-link" href="#">Semua Lisensi</a></li>
                     <li class="{{ Request::is("itam/lisensi/sistem-operasi") ? "active" : "" }}"><a class="nav-link" href="#">Sistem Operasi</a></li>
                     <li class="{{ Request::is("itam/lisensi/aplikasi") ? "active" : "" }}"><a class="nav-link" href="#">Aplikasi</a></li>
+                </ul>
+            </li>
+
+            {{-- Menu Stok Aset --}}
+            <li class="{{ Request::is("itam/stok-aset") ? "active" : "" }}">
+                <a class="nav-link" href="#"><i class="fas fa-cubes"></i> <span>Stok Aset</span></a>
+            </li>
+
+            <li class="menu-header">Penomoran Aset</li>
+
+            {{-- Menu Penomoran --}}
+            <li class="dropdown {{ Request::is("itam/penomoran/*") ? "active" : "" }}">
+                <a class="nav-link has-dropdown" data-toggle="dropdown" href="#"><i class="fas fa-list-ol"></i> <span>Penomoran</span></a>
+                <ul class="dropdown-menu">
+                    <li class="{{ Request::is("itam/penomoran/nomor-inv") ? "active" : "" }}"><a class="nav-link" href="#">Nomor INV</a></li>
+                    <li class="{{ Request::is("itam/penomoran/nomor-sip") ? "active" : "" }}"><a class="nav-link" href="#">Nomor SIP</a></li>
+                    <li class="{{ Request::is("itam/penomoran/nomor-aset") ? "active" : "" }}"><a class="nav-link" href="#">Nomor Aset</a></li>
                 </ul>
             </li>
 
@@ -105,8 +103,8 @@
                 <ul class="dropdown-menu">
                     <li class="{{ Request::is("itam/pengaturan/status-aset") ? "active" : "" }}"><a class="nav-link" href="{{ url("itam/pengaturan/status-aset") }}">Status Aset</a></li>
                     <li class="{{ Request::is("itam/pengaturan/kategori-aset") ? "active" : "" }}"><a class="nav-link" href="{{ url("itam/pengaturan/kategori-aset") }}">Kategori Aset</a></li>
+                    <li class="{{ Request::is("itam/pengaturan/merk-aset") ? "active" : "" }}"><a class="nav-link" href="{{ url("itam/pengaturan/merk-aset") }}">Merk Aset</a></li>
                     <li class="{{ Request::is("itam/pengaturan/model-aset") ? "active" : "" }}"><a class="nav-link" href="{{ url("itam/pengaturan/model-aset") }}">Model Aset</a></li>
-                    <li class="{{ Request::is("itam/pengaturan/merk-aset") ? "active" : "" }}"><a class="nav-link" href="#">Merk Aset</a></li>
                     <li class="{{ Request::is("itam/pengatura/supplier-aset") ? "active" : "" }}"><a class="nav-link" href="#">Supplier Aset</a></li>
                 </ul>
             </li>

@@ -19,6 +19,7 @@ use App\Http\Controllers\Aset\AsetController;
 use App\Http\Controllers\Aset\StatusAsetController;
 use App\Http\Controllers\Aset\KategoriAsetController;
 use App\Http\Controllers\Aset\ModelAsetController;
+use App\Http\Controllers\Aset\MerkAsetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,5 +107,6 @@ Route::prefix('itam')->name('itam.')->middleware('auth')->group(function () {
         Route::get('/status-aset', [StatusAsetController::class, 'statusAset'])->name('status-aset');
         Route::get('/kategori-aset', [KategoriAsetController::class, 'kategoriAset'])->name('kategori-aset');
         Route::get('/model-aset', [ModelAsetController::class, 'modelAset'])->name('model-aset');
+        Route::get('/merk-aset', [MerkAsetController::class, 'merkAset'])->name('merk-aset');
     });
 });

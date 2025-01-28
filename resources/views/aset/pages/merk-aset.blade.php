@@ -1,23 +1,23 @@
 @extends("aset.layouts.app")
 
 @section("title")
-    Status Aset {!! "&mdash;" !!} ITAM
+    Model Aset {!! "&mdash;" !!} ITAM
 @endsection
 
 @section("content")
     <section class="section">
         <div class="section-header">
-            <h1>Status Aset</h1>
+            <h1>Merk Aset</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item"><a href="{{ url("itam/dashboard") }}"><i class="fas fa-laptop"></i> IT Asset Management</a></div>
                 <div class="breadcrumb-item"><i class="fas fa-cog"></i> Pengaturan</div>
-                <div class="breadcrumb-item active"><i class="fas fa-lightbulb"></i> Status Aset</div>
+                <div class="breadcrumb-item active"><i class="fas fa-trademark"></i> Merk Aset</div>
             </div>
         </div>
 
         <div class="section-body">
-            <h2 class="section-title">Jenis Status Aset</h2>
-            <p class="section-lead">Daftar status yang dapat digunakan pada aset</p>
+            <h2 class="section-title">Jenis Merk Aset</h2>
+            <p class="section-lead">Daftar merk aset</p>
 
             <div class="row mb-3">
                 <div class="col-md-4">
@@ -37,61 +37,33 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Nama Status</th>
-                            <th>Tag Status</th>
-                            <th>Keterangan</th>
+                            <th>Merk</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Sedang Digunakan</td>
-                            <td>
-                                <div class="badge badge-success">Active</div>
-                            </td>
-                            </td>
-                            <td>Aset sedang digunakan dan memiliki PIC</td>
+                            <td>Dell</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
-                            <td>Dipinjam</td>
-                            <td>
-                                <div class="badge badge-success">Active</div>
-                            </td>
-                            <td>Aset sedang digunakan dan memiliki PIC berbeda dari pemiliknya</td>
+                            <td>Lenovo</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
-                            <td>Tanpa PIC</td>
-                            <td>
-                                <div class="badge badge-info">Idle</div>
-                            </td>
-                            <td>Aset sedang tidak digunakan dan tidak memiliki PIC</td>
-                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
-                        </tr>
-
-                        <tr>
-                            <td>Perbaikan</td>
-                            <td>
-                                <div class="badge badge-warning">Not Active</div>
-                            </td>
-                            <td>Aset sedang dalam perbaikan dan tidak dapat digunakan</td>
+                            <td>Samsung</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
-                            <td>Rusak</td>
-                            <td>
-                                <div class="badge badge-warning">Not Active</div>
-                            </td>
-                            <td>Aset dalam keadaan rusak dan tidak dapat digunakan</td>
+                            <td>Epson</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
-                            <td>Dimusnahkan</td>
-                            <td>
-                                <div class="badge badge-danger">Dismantle</div>
-                            </td>
-                            <td>Aset sudah dimusnahkan</td>
+                            <td>Intel</td>
+                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
+                        </tr>
+                        <tr>
+                            <td>Corsair</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                     </tbody>

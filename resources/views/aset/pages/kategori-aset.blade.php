@@ -17,7 +17,7 @@
 
         <div class="section-body">
             <h2 class="section-title">Jenis Kategori Aset</h2>
-            <p class="section-lead">Daftar kategori pengelompokan jenis aset.</p>
+            <p class="section-lead">Daftar kategori pengelompokan jenis aset</p>
 
             <div class="row mb-3">
                 <div class="col-md-4">
@@ -37,8 +37,8 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Nama Kategori</th>
-                            <th>Jenis Kategori</th>
+                            <th>Kategori</th>
+                            <th>Tipe</th>
                             <th>Keterangan</th>
                             <th>Action</th>
                         </tr>
@@ -49,7 +49,7 @@
                             <td>
                                 <div class="badge badge-success">Hardware</div>
                             </td>
-                            <td>Aset fisik berupa komputer</td>
+                            <td>Aset hardware berupa komputer</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
@@ -57,7 +57,7 @@
                             <td>
                                 <div class="badge badge-success">Hardware</div>
                             </td>
-                            <td>Aset fisik berupa laptop</td>
+                            <td>Aset hardware berupa laptop</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
@@ -65,7 +65,7 @@
                             <td>
                                 <div class="badge badge-success">Hardware</div>
                             </td>
-                            <td>Aset fisik berupa monitor</td>
+                            <td>Aset hardware berupa monitor</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
@@ -73,7 +73,7 @@
                             <td>
                                 <div class="badge badge-success">Hardware</div>
                             </td>
-                            <td>Aset fisik berupa printer</td>
+                            <td>Aset hardware berupa printer</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
@@ -81,7 +81,7 @@
                             <td>
                                 <div class="badge badge-success">Hardware</div>
                             </td>
-                            <td>Aset fisik berupa scanner</td>
+                            <td>Aset hardware berupa scanner</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
@@ -89,7 +89,7 @@
                             <td>
                                 <div class="badge badge-success">Hardware</div>
                             </td>
-                            <td>Aset fisik berupa toner</td>
+                            <td>Aset hardware berupa toner</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
@@ -97,7 +97,7 @@
                             <td>
                                 <div class="badge badge-primary">Komponen</div>
                             </td>
-                            <td>Aset fisik berupa processor</td>
+                            <td>Aset komponen berupa processor</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
@@ -105,7 +105,7 @@
                             <td>
                                 <div class="badge badge-primary">Komponen</div>
                             </td>
-                            <td>Aset fisik berupa RAM</td>
+                            <td>Aset komponen berupa RAM</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
@@ -113,7 +113,7 @@
                             <td>
                                 <div class="badge badge-primary">Komponen</div>
                             </td>
-                            <td>Aset fisik berupa harddisk</td>
+                            <td>Aset komponen berupa harddisk</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
@@ -121,7 +121,7 @@
                             <td>
                                 <div class="badge badge-primary">Komponen</div>
                             </td>
-                            <td>Aset fisik berupa SSD</td>
+                            <td>Aset komponen berupa SSD</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
@@ -129,7 +129,7 @@
                             <td>
                                 <div class="badge badge-primary">Komponen</div>
                             </td>
-                            <td>Aset fisik berupa VGA</td>
+                            <td>Aset komponen berupa VGA</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
@@ -137,7 +137,7 @@
                             <td>
                                 <div class="badge badge-primary">Komponen</div>
                             </td>
-                            <td>Aset fisik berupa power supply</td>
+                            <td>Aset komponen berupa power supply</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
@@ -145,7 +145,7 @@
                             <td>
                                 <div class="badge badge-secondary">Aksesoris</div>
                             </td>
-                            <td>Aset fisik berupa keyboard</td>
+                            <td>Aset aksesoris berupa keyboard</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
@@ -153,7 +153,7 @@
                             <td>
                                 <div class="badge badge-secondary">Aksesoris</div>
                             </td>
-                            <td>Aset fisik berupa mouse</td>
+                            <td>Aset aksesoris berupa mouse</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
@@ -161,7 +161,7 @@
                             <td>
                                 <div class="badge badge-secondary">Aksesoris</div>
                             </td>
-                            <td>Aset fisik berupa speaker</td>
+                            <td>Aset aksesoris berupa speaker</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
@@ -169,7 +169,7 @@
                             <td>
                                 <div class="badge badge-secondary">Aksesoris</div>
                             </td>
-                            <td>Aset fisik berupa webcam</td>
+                            <td>Aset aksesoris berupa webcam</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
@@ -177,7 +177,7 @@
                             <td>
                                 <div class="badge badge-info">Lisensi</div>
                             </td>
-                            <td>Aset fisik berupa webcam</td>
+                            <td>Aset lisensi sistem operasi</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
@@ -185,7 +185,7 @@
                             <td>
                                 <div class="badge badge-info">Lisensi</div>
                             </td>
-                            <td>Aset fisik berupa webcam</td>
+                            <td>Aset lisensi aplikasi</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                     </tbody>

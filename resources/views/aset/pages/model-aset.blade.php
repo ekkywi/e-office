@@ -11,13 +11,13 @@
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item"><a href="{{ url("itam/dashboard") }}"><i class="fas fa-laptop"></i> IT Asset Management</a></div>
                 <div class="breadcrumb-item"><i class="fas fa-cog"></i> Pengaturan</div>
-                <div class="breadcrumb-item active"><i class="fas fa-list"></i> Kategori Aset</div>
+                <div class="breadcrumb-item active"><i class="fas fa-spa"></i> Model Aset</div>
             </div>
         </div>
 
         <div class="section-body">
             <h2 class="section-title">Jenis Model Aset</h2>
-            <p class="section-lead">Daftar model aset.</p>
+            <p class="section-lead">Daftar model aset</p>
 
             <div class="row mb-3">
                 <div class="col-md-4">
@@ -39,153 +39,100 @@
                         <tr>
                             <th>Nama Model</th>
                             <th>Gambar</th>
+                            <th>Seri</th>
                             <th>Nomor Model</th>
+                            <th>Merk</th>
+                            <th>Kategori</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Komputer</td>
+                            <td>Dell Optiplex 780</td>
+                            <td><img alt="" height="50" src="{{ asset("images/assets/dell-optiplex-780.jpg") }}"></td>
+                            <td>Optiplex</td>
+                            <td>780</td>
+                            <td>Dell</td>
                             <td>
-                                <div class="badge badge-success">Hardware</div>
+                                <div class="badge badge-success">Komputer</div>
                             </td>
-                            <td>Aset fisik berupa komputer</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
-                            <td>Laptop</td>
+                            <td>Lenovo Thinkpad T460</td>
+                            <td><img alt="" height="50" src="{{ asset("images/assets/thinkpad-t460.png") }}"></td>
+                            <td>Thinkpad</td>
+                            <td>T460</td>
+                            <td>Lenovo</td>
                             <td>
-                                <div class="badge badge-success">Hardware</div>
+                                <div class="badge badge-success">Laptop</div>
                             </td>
-                            <td>Aset fisik berupa laptop</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
-                            <td>Monitor</td>
+                            <td>Samsung Essential Monitor S3</td>
+                            <td><img alt="" height="50" src="{{ asset("images/assets/samsung-essential-monitor-s3.jpg") }}"></td>
+                            <td>Essential Monitor</td>
+                            <td>S3</td>
+                            <td>Samsung</td>
                             <td>
-                                <div class="badge badge-success">Hardware</div>
+                                <div class="badge badge-success">Monitor</div>
                             </td>
-                            <td>Aset fisik berupa monitor</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
-                            <td>Printer</td>
+                            <td>Epson L Series L121</td>
+                            <td><img alt="" height="50" src="{{ asset("images/assets/epson-l121.jpg") }}"></td>
+                            <td>L Series</td>
+                            <td>L121</td>
+                            <td>Epson</td>
                             <td>
-                                <div class="badge badge-success">Hardware</div>
+                                <div class="badge badge-success">Printer</div>
                             </td>
-                            <td>Aset fisik berupa printer</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
-                            <td>Scanner</td>
+                            <td>Epson Workforce DS-50000</td>
+                            <td><img alt="" height="50" src="{{ asset("images/assets/epson-workforce-ds-50000.png") }}"></td>
+                            <td>Workforce</td>
+                            <td>DS-50000</td>
+                            <td>Epson</td>
                             <td>
-                                <div class="badge badge-success">Hardware</div>
+                                <div class="badge badge-success">Scanner</div>
                             </td>
-                            <td>Aset fisik berupa scanner</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
-                            <td>Toner</td>
+                            <td>Toner Printer Epson Laserjet 85A</td>
+                            <td><img alt="" height="50" src="{{ asset("images/assets/toner-85a.jpg") }}"></td>
+                            <td>Laserjet</td>
+                            <td>85A</td>
+                            <td>Epson</td>
                             <td>
-                                <div class="badge badge-success">Hardware</div>
+                                <div class="badge badge-success">Toner</div>
                             </td>
-                            <td>Aset fisik berupa toner</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
-                            <td>Processor</td>
+                            <td>Intel Core i7 14400K</td>
+                            <td><img alt="" height="50" src="{{ asset("images/assets/core-i7-14400k.jpg") }}"></td>
+                            <td>Core Series</td>
+                            <td>14400K</td>
+                            <td>Intel</td>
                             <td>
-                                <div class="badge badge-primary">Komponen</div>
+                                <div class="badge badge-primary">Processor</div>
                             </td>
-                            <td>Aset fisik berupa processor</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                         <tr>
-                            <td>RAM</td>
+                            <td>Corsair Vengeance LPX 16GB DDR4</td>
+                            <td><img alt="" height="50" src="{{ asset("images/assets/corsair-vengeance-lpx.jpg") }}"></td>
+                            <td>Vengeance Series</td>
+                            <td>LPX</td>
+                            <td>Corsair</td>
                             <td>
-                                <div class="badge badge-primary">Komponen</div>
+                                <div class="badge badge-primary">RAM</div>
                             </td>
-                            <td>Aset fisik berupa RAM</td>
-                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
-                        </tr>
-                        <tr>
-                            <td>Harddisk</td>
-                            <td>
-                                <div class="badge badge-primary">Komponen</div>
-                            </td>
-                            <td>Aset fisik berupa harddisk</td>
-                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
-                        </tr>
-                        <tr>
-                            <td>SSD</td>
-                            <td>
-                                <div class="badge badge-primary">Komponen</div>
-                            </td>
-                            <td>Aset fisik berupa SSD</td>
-                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
-                        </tr>
-                        <tr>
-                            <td>VGA</td>
-                            <td>
-                                <div class="badge badge-primary">Komponen</div>
-                            </td>
-                            <td>Aset fisik berupa VGA</td>
-                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
-                        </tr>
-                        <tr>
-                            <td>Power Supply</td>
-                            <td>
-                                <div class="badge badge-primary">Komponen</div>
-                            </td>
-                            <td>Aset fisik berupa power supply</td>
-                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
-                        </tr>
-                        <tr>
-                            <td>Keyboard</td>
-                            <td>
-                                <div class="badge badge-secondary">Aksesoris</div>
-                            </td>
-                            <td>Aset fisik berupa keyboard</td>
-                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
-                        </tr>
-                        <tr>
-                            <td>Mouse</td>
-                            <td>
-                                <div class="badge badge-secondary">Aksesoris</div>
-                            </td>
-                            <td>Aset fisik berupa mouse</td>
-                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
-                        </tr>
-                        <tr>
-                            <td>Speaker</td>
-                            <td>
-                                <div class="badge badge-secondary">Aksesoris</div>
-                            </td>
-                            <td>Aset fisik berupa speaker</td>
-                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
-                        </tr>
-                        <tr>
-                            <td>Webcam</td>
-                            <td>
-                                <div class="badge badge-secondary">Aksesoris</div>
-                            </td>
-                            <td>Aset fisik berupa webcam</td>
-                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
-                        </tr>
-                        <tr>
-                            <td>Sistem Operasi</td>
-                            <td>
-                                <div class="badge badge-info">Lisensi</div>
-                            </td>
-                            <td>Aset fisik berupa webcam</td>
-                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
-                        </tr>
-                        <tr>
-                            <td>Aplikasi</td>
-                            <td>
-                                <div class="badge badge-info">Lisensi</div>
-                            </td>
-                            <td>Aset fisik berupa webcam</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
                     </tbody>
