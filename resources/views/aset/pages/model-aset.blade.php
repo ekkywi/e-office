@@ -135,6 +135,95 @@
                             </td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
+                        <tr>
+                            <td>Seagate Barracuda 1TB</td>
+                            <td><img alt="" height="50" src="{{ asset("images/assets/seagate-barracuda.jpg") }}"></td>
+                            <td>Barracuda Series</td>
+                            <td>ST1000LM048</td>
+                            <td>Seagate</td>
+                            <td>
+                                <div class="badge badge-primary">Harddisk</div>
+                            </td>
+                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
+                        </tr>
+                        <tr>
+                            <td>SSD NVME Samsung EVO 970 1TB</td>
+                            <td><img alt="" height="50" src="{{ asset("images/assets/samsung-ssd.jpg") }}"></td>
+                            <td>EVO Series</td>
+                            <td>970</td>
+                            <td>Samsung</td>
+                            <td>
+                                <div class="badge badge-primary">SSD</div>
+                            </td>
+                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
+                        </tr>
+                        <tr>
+                            <td>Asus Dual GeForce RTX 3050 V2 OC Edition 8GB GDDR6 8G</td>
+                            <td><img alt="" height="50" src="{{ asset("images/assets/rtx-3050.jpg") }}"></td>
+                            <td>Dual GeForce Series</td>
+                            <td>RTX 3050 V2 OC Edition</td>
+                            <td>Asus</td>
+                            <td>
+                                <div class="badge badge-primary">VGA</div>
+                            </td>
+                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
+                        </tr>
+                        <tr>
+                            <td>FSP HV Pro 550W</td>
+                            <td><img alt="" height="50" src="{{ asset("images/assets/fsp.jpg") }}"></td>
+                            <td>HV Pro Series</td>
+                            <td>FSP550-51AAC</td>
+                            <td>FSP</td>
+                            <td>
+                                <div class="badge badge-primary">Power Supply</div>
+                            </td>
+                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
+                        </tr>
+                        <tr>
+                            <td>Logitech K120 Keyboard</td>
+                            <td><img alt="" height="50" src="{{ asset("images/assets/logitech-k120.jpg") }}"></td>
+                            <td>K Series</td>
+                            <td>K120</td>
+                            <td>Logitech</td>
+                            <td>
+                                <div class="badge badge-secondary">Aksesoris</div>
+                            </td>
+                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
+                        </tr>
+                        <tr>
+                            <td>Logitech M100R Mouse</td>
+                            <td><img alt="" height="50" src="{{ asset("images/assets/mouse-logitech.jpg") }}"></td>
+                            <td>M Series</td>
+                            <td>M100R</td>
+                            <td>Logitech</td>
+                            <td>
+                                <div class="badge badge-secondary">Aksesoris</div>
+                            </td>
+                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
+                        </tr>
+                        <tr>
+                            <td>Logitech Z121 Speaker</td>
+                            <td><img alt="" height="50" src="{{ asset("images/assets/speaker-logitech.jpg") }}"></td>
+                            <td>Z Series</td>
+                            <td>Z121</td>
+                            <td>Logitech</td>
+                            <td>
+                                <div class="badge badge-secondary">Aksesoris</div>
+                            </td>
+                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
+                        </tr>
+                        <tr>
+                            <td>Logitech C270A Webcam</td>
+                            <td><img alt="" height="50" src="{{ asset("images/assets/logitech-webcam.jpg") }}"></td>
+                            <td>C Series</td>
+                            <td>C270A</td>
+                            <td>Logitech</td>
+                            <td>
+                                <div class="badge badge-secondary">Aksesoris</div>
+                            </td>
+                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
+                        </tr>
+
                     </tbody>
                 </table>
             </div>

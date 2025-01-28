@@ -66,6 +66,22 @@
                             <td>Corsair</td>
                             <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
                         </tr>
+                        <tr>
+                            <td>Seagate</td>
+                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
+                        </tr>
+                        <tr>
+                            <td>ASUS</td>
+                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
+                        </tr>
+                        <tr>
+                            <td>FSP</td>
+                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
+                        </tr>
+                        <tr>
+                            <td>Logitech</td>
+                            <td><a class="btn btn-primary" href="#">Edit</a> <a class="btn btn-danger" href="#">Delete</a></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
